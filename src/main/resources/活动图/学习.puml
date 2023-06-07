@@ -1,0 +1,22 @@
+@startuml
+start
+:登录系统;
+if (验证登录信息) then (成功)
+  :显示用户管理菜单;
+  repeat
+    :显示用户列表;
+    :选择操作;
+    if (操作是浏览用户) then (是)
+      :显示用户详细信息;
+    else(否)
+      :输入查询条件;
+      :执行查询;
+      :显示查询结果;
+    endif
+  repeat while (继续操作？)
+else (失败)
+  :显示错误消息;
+  stop
+endif
+stop
+@enduml

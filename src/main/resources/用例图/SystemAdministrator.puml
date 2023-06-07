@@ -1,0 +1,16 @@
+@startuml
+left to right direction
+actor 系统管理员
+usecase 管理用户
+usecase 管理机房可用时间段
+usecase 设置学时
+usecase 查看上机统计
+usecase 查看登录日志
+
+系统管理员 -->管理用户
+系统管理员 -->管理机房可用时间段
+系统管理员 -->设置学时
+系统管理员 -->查看上机统计
+系统管理员 -->查看登录日志
+
+@enduml

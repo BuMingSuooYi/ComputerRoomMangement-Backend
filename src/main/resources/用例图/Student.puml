@@ -1,0 +1,10 @@
+@startuml
+left to right direction
+actor 学生
+usecase 个人上机情况
+usecase 个人统计
+
+学生 -->个人上机情况
+学生 -->个人统计
+
+@enduml
