@@ -1,22 +1,37 @@
 @startuml
 start
-:登录系统;
-if (验证登录信息) then (成功)
-  :显示用户管理菜单;
-  repeat
-    :显示用户列表;
-    :选择操作;
-    if (操作是浏览用户) then (是)
-      :显示用户详细信息;
-    else(否)
-      :输入查询条件;
-      :执行查询;
-      :显示查询结果;
-    endif
-  repeat while (继续操作？)
-else (失败)
-  :显示错误消息;
-  stop
+:获取用户输入;
+if (输入有效？) then (是)
+  :处理有效输入;
+  if (需要循环处理？) then (是)
+    repeat
+      :执行循环操作;
+      if (循环条件满足？) then (是)
+        fork
+        :执行分支操作1;
+        note left: 这是一个注释;
+        :执行分支操作2;
+        join
+      else (否)
+        :处理循环终止;
+        break
+      endif
+    repeat while (继续循环？)
+  else (否)
+    fork
+    :执行分支操作3;
+    note right: 这是另一个注释;
+    :执行分支操作4;
+    join
+  endif
+  :执行后续操作;
+else (否)
+  :处理无效输入;
+  if (重新输入？) then (是)
+    -->获取用户输入;
+  else (否)
+    -->结束;
+  endif
 endif
-stop
+end
 @enduml

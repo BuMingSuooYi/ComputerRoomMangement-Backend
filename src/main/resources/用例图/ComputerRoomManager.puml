@@ -1,6 +1,7 @@
 @startuml
 left to right direction
 actor 机房管理员
+actor 学生
 usecase 新增机房
 usecase 编辑机房配置
 usecase 管理硬件
@@ -10,5 +11,5 @@ usecase 管理上机
 机房管理员 -->编辑机房配置
 机房管理员 -->管理硬件
 机房管理员 -->管理上机
-
+学生  -->管理上机
 @enduml
