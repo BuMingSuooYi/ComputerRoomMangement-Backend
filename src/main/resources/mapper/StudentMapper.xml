@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nchu.software.mapper.StudentMapper">
+
+    <resultMap id="BaseResultMap" type="com.nchu.software.entity.Student">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="account" column="account" jdbcType="INTEGER"/>
+            <result property="studentNo" column="student_no" jdbcType="VARCHAR"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="clazz" column="clazz" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,account,student_no,
+        name,clazz
+    </sql>
+</mapper>

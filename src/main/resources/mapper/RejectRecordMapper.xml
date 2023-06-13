@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nchu.software.mapper.RejectRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.nchu.software.entity.RejectRecord">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="machineRoom" column="machine_room" jdbcType="INTEGER"/>
+            <result property="time" column="time" jdbcType="TIMESTAMP"/>
+            <result property="section" column="section" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,machine_room,time,
+        section
+    </sql>
+</mapper>

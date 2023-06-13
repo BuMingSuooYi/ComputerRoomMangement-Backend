@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nchu.software.mapper.SectionMapper">
+
+    <resultMap id="BaseResultMap" type="com.nchu.software.entity.Section">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="number" column="number" jdbcType="VARCHAR"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,number,start_time,
+        end_time
+    </sql>
+</mapper>

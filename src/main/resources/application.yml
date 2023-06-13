@@ -4,8 +4,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: 123456
-    url: jdbc:mysql://localhost:3306/ctlb?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    password: root
+    url: jdbc:mysql://localhost:3306/crm?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
     multipart:
@@ -13,9 +13,11 @@ spring:
       max-request-size: 100MB
 mybatis-plus:
   configuration:
-    # ???????????????????????????????????????
+    # 开启将数据库表的下划线命名转换为驼峰命名规则
     map-underscore-to-camel-case: true
+    #MyBatis日志的实现类，输出到控制台
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    #全局ID生成策略，使用assign_id（手动分配ID）
   global-config:
     db-config:
       id-type: assign_id
