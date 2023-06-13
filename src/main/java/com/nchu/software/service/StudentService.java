@@ -4,9 +4,9 @@ import com.nchu.software.entity.Student;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
-* @author Lai
+* @author 15696
 * @description 针对表【student(学生表)】的数据库操作Service
-* @createDate 2023-06-13 13:33:05
+* @createDate 2023-06-13 17:03:31
 */
 public interface StudentService extends IService<Student> {
 

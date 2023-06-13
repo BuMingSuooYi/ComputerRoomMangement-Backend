@@ -1,11 +1,9 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import java.util.Date;
 import lombok.Data;
 
 /**
@@ -18,23 +16,20 @@ public class RejectRecord implements Serializable {
     /**
      * 主键
      */
-    @TableId
+    @TableId(value = "id")
     private Integer id;
 
     /**
      * 机房表主键
      */
+    @TableField(value = "machine_room")
     private Integer machineRoom;
-
-    /**
-     * 开始时间
-     */
-    private Date time;
 
     /**
      * 节次表主键
      */
-    private String section;
+    @TableField(value = "section")
+    private Integer section;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -53,7 +48,6 @@ public class RejectRecord implements Serializable {
         RejectRecord other = (RejectRecord) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getMachineRoom() == null ? other.getMachineRoom() == null : this.getMachineRoom().equals(other.getMachineRoom()))
-            && (this.getTime() == null ? other.getTime() == null : this.getTime().equals(other.getTime()))
             && (this.getSection() == null ? other.getSection() == null : this.getSection().equals(other.getSection()));
     }
 
@@ -63,7 +57,6 @@ public class RejectRecord implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getMachineRoom() == null) ? 0 : getMachineRoom().hashCode());
-        result = prime * result + ((getTime() == null) ? 0 : getTime().hashCode());
         result = prime * result + ((getSection() == null) ? 0 : getSection().hashCode());
         return result;
     }
@@ -76,7 +69,6 @@ public class RejectRecord implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", machineRoom=").append(machineRoom);
-        sb.append(", time=").append(time);
         sb.append(", section=").append(section);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");

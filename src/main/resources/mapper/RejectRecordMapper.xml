@@ -7,12 +7,10 @@
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.RejectRecord">
             <id property="id" column="id" jdbcType="INTEGER"/>
             <result property="machineRoom" column="machine_room" jdbcType="INTEGER"/>
-            <result property="time" column="time" jdbcType="TIMESTAMP"/>
-            <result property="section" column="section" jdbcType="VARCHAR"/>
+            <result property="section" column="section" jdbcType="INTEGER"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,machine_room,time,
-        section
+        id,machine_room,section
     </sql>
 </mapper>

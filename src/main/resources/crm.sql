@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: crm
 -- ------------------------------------------------------
--- Server version	8.0.30
+-- Server version	8.0.29
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -24,9 +24,13 @@ DROP TABLE IF EXISTS `account`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
   `id` int NOT NULL COMMENT '主键',
-  `username` varchar(255) DEFAULT NULL COMMENT '用户名',
-  `password` varchar(255) DEFAULT NULL COMMENT '密码',
-  `type` int DEFAULT NULL COMMENT '人员类型 0:系统管理员,1:教师,2:学生',
+  `username` varchar(255) NOT NULL COMMENT '用户名',
+  `password` varchar(255) NOT NULL COMMENT '密码',
+  `type` int NOT NULL COMMENT '人员类型 0:系统管理员,1:教师,2:学生',
+  `is_disabled` int NOT NULL COMMENT '账户是否禁用 0:未禁用,1:禁用',
+  `is_deleted` int NOT NULL COMMENT '是否删除 0:未删除,1:已删除',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='账户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -124,10 +128,12 @@ DROP TABLE IF EXISTS `computer_record`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `computer_record` (
   `id` int NOT NULL COMMENT '主键',
-  `student` int DEFAULT NULL COMMENT '学生表主键',
-  `computer` int DEFAULT NULL COMMENT '电脑表主键',
+  `student` int NOT NULL COMMENT '学生表主键',
+  `computer` int NOT NULL COMMENT '电脑表主键',
   `start_time` datetime DEFAULT NULL COMMENT '起始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='上机记录表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -176,10 +182,12 @@ DROP TABLE IF EXISTS `maintenance_record`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `maintenance_record` (
   `id` int NOT NULL COMMENT '主键',
-  `computer` varchar(255) DEFAULT NULL COMMENT '电脑表主键',
+  `computer` varchar(255) NOT NULL COMMENT '电脑表主键',
   `start_time` datetime DEFAULT NULL COMMENT '起始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='电脑维修记录表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -203,8 +211,7 @@ DROP TABLE IF EXISTS `reject_record`;
 CREATE TABLE `reject_record` (
   `id` int NOT NULL COMMENT '主键',
   `machine_room` int DEFAULT NULL COMMENT '机房表主键',
-  `time` datetime DEFAULT NULL COMMENT '开始时间',
-  `section` varchar(255) DEFAULT NULL COMMENT '节次表主键',
+  `section` int DEFAULT NULL COMMENT '节次表主键',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='机房不可用表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -252,8 +259,8 @@ DROP TABLE IF EXISTS `student`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
   `id` int NOT NULL COMMENT '主键',
-  `account` int DEFAULT NULL COMMENT '账户主键',
-  `student_no` varchar(255) DEFAULT NULL COMMENT '学号',
+  `account` int NOT NULL COMMENT '账户主键',
+  `student_no` varchar(255) NOT NULL COMMENT '学号',
   `name` varchar(255) DEFAULT NULL COMMENT '姓名',
   `clazz` varchar(255) DEFAULT NULL COMMENT '班级编号，例202061',
   PRIMARY KEY (`id`)
@@ -278,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-13 14:19:19
+-- Dump completed on 2023-06-13 16:51:56

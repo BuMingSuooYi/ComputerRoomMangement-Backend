@@ -1,6 +1,5 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -18,28 +17,44 @@ public class ComputerRecord implements Serializable {
     /**
      * 主键
      */
-    @TableId
+    @TableId(value = "id")
     private Integer id;
 
     /**
      * 学生表主键
      */
+    @TableField(value = "student")
     private Integer student;
 
     /**
      * 电脑表主键
      */
+    @TableField(value = "computer")
     private Integer computer;
 
     /**
      * 起始时间
      */
+    @TableField(value = "start_time")
     private Date startTime;
 
     /**
      * 结束时间
      */
+    @TableField(value = "end_time")
     private Date endTime;
+
+    /**
+     * 创建时间
+     */
+    @TableField(value = "create_time")
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField(value = "update_time")
+    private Date updateTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -60,7 +75,9 @@ public class ComputerRecord implements Serializable {
             && (this.getStudent() == null ? other.getStudent() == null : this.getStudent().equals(other.getStudent()))
             && (this.getComputer() == null ? other.getComputer() == null : this.getComputer().equals(other.getComputer()))
             && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
-            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()));
+            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
     }
 
     @Override
@@ -72,6 +89,8 @@ public class ComputerRecord implements Serializable {
         result = prime * result + ((getComputer() == null) ? 0 : getComputer().hashCode());
         result = prime * result + ((getStartTime() == null) ? 0 : getStartTime().hashCode());
         result = prime * result + ((getEndTime() == null) ? 0 : getEndTime().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         return result;
     }
 
@@ -86,6 +105,8 @@ public class ComputerRecord implements Serializable {
         sb.append(", computer=").append(computer);
         sb.append(", startTime=").append(startTime);
         sb.append(", endTime=").append(endTime);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateTime=").append(updateTime);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

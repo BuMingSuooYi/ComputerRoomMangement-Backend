@@ -9,10 +9,15 @@
             <result property="username" column="username" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="type" column="type" jdbcType="INTEGER"/>
+            <result property="isDisabled" column="is_disabled" jdbcType="INTEGER"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
         id,username,password,
-        type
+        type,is_disabled,is_deleted,
+        create_time,update_time
     </sql>
 </mapper>
