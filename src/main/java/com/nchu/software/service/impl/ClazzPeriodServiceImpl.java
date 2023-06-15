@@ -2,14 +2,14 @@ package com.nchu.software.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.nchu.software.entity.ClazzPeriod;
-import com.nchu.software.mapper.ClazzPeriodMapper;
 import com.nchu.software.service.ClazzPeriodService;
+import com.nchu.software.mapper.ClazzPeriodMapper;
 import org.springframework.stereotype.Service;
 
 /**
-* @author 15696
+* @author Lai
 * @description 针对表【clazz_period(班级学时表)】的数据库操作Service实现
-* @createDate 2023-06-13 17:03:31
+* @createDate 2023-06-15 14:45:15
 */
 @Service
 public class ClazzPeriodServiceImpl extends ServiceImpl<ClazzPeriodMapper, ClazzPeriod>

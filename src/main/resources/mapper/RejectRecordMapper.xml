@@ -5,7 +5,7 @@
 <mapper namespace="com.nchu.software.mapper.RejectRecordMapper">
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.RejectRecord">
-            <id property="id" column="id" jdbcType="INTEGER"/>
+            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="machineRoom" column="machine_room" jdbcType="INTEGER"/>
             <result property="section" column="section" jdbcType="INTEGER"/>
     </resultMap>

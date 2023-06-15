@@ -5,7 +5,7 @@
 <mapper namespace="com.nchu.software.mapper.ComputerMapper">
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.Computer">
-            <id property="id" column="id" jdbcType="INTEGER"/>
+            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="number" column="number" jdbcType="VARCHAR"/>
             <result property="configuration" column="configuration" jdbcType="INTEGER"/>
             <result property="machineRoom" column="machine_room" jdbcType="INTEGER"/>

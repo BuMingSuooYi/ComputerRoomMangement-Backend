@@ -5,7 +5,7 @@
 <mapper namespace="com.nchu.software.mapper.AccountMapper">
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.Account">
-            <id property="id" column="id" jdbcType="INTEGER"/>
+            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="username" column="username" jdbcType="VARCHAR"/>
             <result property="password" column="password" jdbcType="VARCHAR"/>
             <result property="type" column="type" jdbcType="INTEGER"/>

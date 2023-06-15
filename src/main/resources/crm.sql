@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: crm
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,12 +23,12 @@ DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `username` varchar(255) NOT NULL COMMENT '用户名',
   `password` varchar(255) NOT NULL COMMENT '密码',
   `type` int NOT NULL COMMENT '人员类型 0:系统管理员,1:教师,2:学生',
-  `is_disabled` int NOT NULL COMMENT '账户是否禁用 0:未禁用,1:禁用',
-  `is_deleted` int NOT NULL COMMENT '是否删除 0:未删除,1:已删除',
+  `is_disabled` int NOT NULL DEFAULT '0' COMMENT '账户是否禁用 0:未禁用,1:禁用',
+  `is_deleted` int NOT NULL DEFAULT '0' COMMENT '是否删除 0:未删除,1:已删除',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
@@ -41,6 +41,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
+INSERT INTO `account` VALUES (1669235956856725505,'lai1','123456',2,0,0,NULL,NULL),(1669238365725179905,'lai2','123456',2,0,0,'2023-06-15 15:00:14','2023-06-15 15:00:14'),(1669244904670298113,'lai3','123456',2,0,0,'2023-06-15 15:26:13','2023-06-15 15:26:13'),(1669245286532276226,'lai3','123456',2,0,0,'2023-06-15 15:27:44','2023-06-15 15:27:44'),(1669245948070494210,'lai','123456',2,0,0,'2023-06-15 15:30:22','2023-06-15 15:30:22'),(1669339143529938945,'admain','123456.0',0,0,0,'2023-06-15 21:40:41','2023-06-15 21:40:41'),(1669339144737898497,'admain1','123456.0',1,0,0,'2023-06-15 21:40:42','2023-06-15 21:40:42'),(1669339144737898498,'admain2','123456.0',2,0,0,'2023-06-15 21:40:42','2023-06-15 21:40:42'),(1669339409117392898,'admain','123456.0',0,0,0,'2023-06-15 21:41:45','2023-06-15 21:41:45'),(1669339411499757570,'admain1','123456.0',1,0,0,'2023-06-15 21:41:45','2023-06-15 21:41:45'),(1669339411566866433,'admain2','123456.0',2,0,0,'2023-06-15 21:41:45','2023-06-15 21:41:45'),(1669339821253894146,'admain','123456.0',0,0,0,'2023-06-15 21:43:23','2023-06-15 21:43:23'),(1669339823506235393,'admain1','123456.0',1,0,0,'2023-06-15 21:43:23','2023-06-15 21:43:23'),(1669339823573344257,'admain2','123456.0',2,0,0,'2023-06-15 21:43:23','2023-06-15 21:43:23'),(1669342479884873730,'admain','123456.0',0,0,0,'2023-06-15 21:53:57','2023-06-15 21:53:57'),(1669342481206079489,'admain1','123456.0',1,0,0,'2023-06-15 21:53:57','2023-06-15 21:53:57'),(1669342481273188353,'admain2','123456.0',2,0,0,'2023-06-15 21:53:57','2023-06-15 21:53:57'),(1669343685210374146,'admain','123456.0',0,0,0,'2023-06-15 21:58:44','2023-06-15 21:58:44'),(1669343686393167873,'admain1','123456.0',1,0,0,'2023-06-15 21:58:44','2023-06-15 21:58:44'),(1669343686460276737,'admain2','123456.0',2,0,0,'2023-06-15 21:58:44','2023-06-15 21:58:44');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,7 +53,7 @@ DROP TABLE IF EXISTS `clazz_period`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clazz_period` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `clazz` varchar(255) DEFAULT NULL COMMENT '班级，例如:202061',
   `time` int DEFAULT NULL COMMENT '学时',
   PRIMARY KEY (`id`)
@@ -76,7 +77,7 @@ DROP TABLE IF EXISTS `computer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `computer` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `number` varchar(255) DEFAULT NULL COMMENT '编号',
   `configuration` int DEFAULT NULL COMMENT '电脑配置表主键',
   `machine_room` int DEFAULT NULL COMMENT '隶属机房',
@@ -103,7 +104,7 @@ DROP TABLE IF EXISTS `computer_configuration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `computer_configuration` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `hardware` varchar(255) DEFAULT NULL COMMENT '硬件配置',
   `software` varchar(255) DEFAULT NULL COMMENT '软件配置',
   PRIMARY KEY (`id`)
@@ -127,7 +128,7 @@ DROP TABLE IF EXISTS `computer_record`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `computer_record` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `student` int NOT NULL COMMENT '学生表主键',
   `computer` int NOT NULL COMMENT '电脑表主键',
   `start_time` datetime DEFAULT NULL COMMENT '起始时间',
@@ -155,7 +156,7 @@ DROP TABLE IF EXISTS `machine_room`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `machine_room` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `name` varchar(255) DEFAULT NULL COMMENT '机房名 例：D301',
   `pattern` varchar(255) DEFAULT NULL COMMENT '排列模式 例如2*3，代表2行3列',
   `principal` varchar(255) DEFAULT NULL COMMENT '负责人',
@@ -181,7 +182,7 @@ DROP TABLE IF EXISTS `maintenance_record`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `maintenance_record` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `computer` varchar(255) NOT NULL COMMENT '电脑表主键',
   `start_time` datetime DEFAULT NULL COMMENT '起始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
@@ -209,7 +210,7 @@ DROP TABLE IF EXISTS `reject_record`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reject_record` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `machine_room` int DEFAULT NULL COMMENT '机房表主键',
   `section` int DEFAULT NULL COMMENT '节次表主键',
   PRIMARY KEY (`id`)
@@ -233,7 +234,7 @@ DROP TABLE IF EXISTS `section`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `section` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `number` varchar(255) DEFAULT NULL COMMENT '节次，例如:1',
   `start_time` datetime DEFAULT NULL COMMENT '起始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
@@ -258,7 +259,7 @@ DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
-  `id` int NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `account` int NOT NULL COMMENT '账户主键',
   `student_no` varchar(255) NOT NULL COMMENT '学号',
   `name` varchar(255) DEFAULT NULL COMMENT '姓名',
@@ -285,4 +286,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-13 16:51:56
+-- Dump completed on 2023-06-15 22:00:11

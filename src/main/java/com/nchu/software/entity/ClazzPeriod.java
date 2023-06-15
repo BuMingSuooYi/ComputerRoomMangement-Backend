@@ -1,5 +1,6 @@
 package com.nchu.software.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,19 +17,17 @@ public class ClazzPeriod implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 班级，例如:202061
      */
-    @TableField(value = "clazz")
     private String clazz;
 
     /**
      * 学时
      */
-    @TableField(value = "time")
     private Integer time;
 
     @TableField(exist = false)

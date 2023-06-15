@@ -1,5 +1,6 @@
 package com.nchu.software.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -18,25 +19,22 @@ public class Section implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 节次，例如:1
      */
-    @TableField(value = "number")
     private String number;
 
     /**
      * 起始时间
      */
-    @TableField(value = "start_time")
     private LocalDateTime startTime;
 
     /**
      * 结束时间
      */
-    @TableField(value = "end_time")
     private LocalDateTime endTime;
 
     @TableField(exist = false)

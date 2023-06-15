@@ -1,8 +1,7 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -18,43 +17,39 @@ public class MaintenanceRecord implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 电脑表主键
      */
-    @TableField(value = "computer")
     private String computer;
 
     /**
      * 起始时间
      */
-    @TableField(value = "start_time")
     private LocalDateTime startTime;
 
     /**
      * 结束时间
      */
-    @TableField(value = "end_time")
     private LocalDateTime endTime;
 
     /**
      * 备注
      */
-    @TableField(value = "remark")
     private String remark;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
+    @TableField(value = "create_time",fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @TableField(value = "update_time")
+    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @TableField(exist = false)

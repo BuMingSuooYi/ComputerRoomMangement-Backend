@@ -5,7 +5,7 @@
 <mapper namespace="com.nchu.software.mapper.MaintenanceRecordMapper">
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.MaintenanceRecord">
-            <id property="id" column="id" jdbcType="INTEGER"/>
+            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="computer" column="computer" jdbcType="VARCHAR"/>
             <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
             <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>

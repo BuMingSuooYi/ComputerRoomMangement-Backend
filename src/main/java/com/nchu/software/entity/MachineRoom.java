@@ -1,5 +1,6 @@
 package com.nchu.software.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,31 +17,27 @@ public class MachineRoom implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 机房名 例：D301
      */
-    @TableField(value = "name")
     private String name;
 
     /**
      * 排列模式 例如2*3，代表2行3列
      */
-    @TableField(value = "pattern")
     private String pattern;
 
     /**
      * 负责人
      */
-    @TableField(value = "principal")
     private String principal;
 
     /**
      * 状态 0:未开放,1:开放
      */
-    @TableField(value = "state")
     private Integer state;
 
     @TableField(exist = false)

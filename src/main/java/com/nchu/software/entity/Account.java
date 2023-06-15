@@ -1,9 +1,7 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,50 +17,45 @@ public class Account implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 用户名
      */
-    @TableField(value = "username")
     private String username;
 
     /**
      * 密码
      */
-    @TableField(value = "password")
     private String password;
 
     /**
      * 人员类型 0:系统管理员,1:教师,2:学生
      */
-    @TableField(value = "type")
     private Integer type;
 
     /**
      * 账户是否禁用 0:未禁用,1:禁用
      */
-    @TableField(value = "is_disabled")
     private Integer isDisabled;
 
     /**
      * 是否删除 0:未删除,1:已删除
      */
     @TableLogic
-    @TableField(value = "is_deleted")
     private Integer isDeleted;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
+    @TableField(value = "create_time",fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @TableField(value = "update_time")
+    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     @TableField(exist = false)

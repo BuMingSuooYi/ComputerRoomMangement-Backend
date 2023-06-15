@@ -5,7 +5,7 @@
 <mapper namespace="com.nchu.software.mapper.ComputerRecordMapper">
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.ComputerRecord">
-            <id property="id" column="id" jdbcType="INTEGER"/>
+            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="student" column="student" jdbcType="INTEGER"/>
             <result property="computer" column="computer" jdbcType="INTEGER"/>
             <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>

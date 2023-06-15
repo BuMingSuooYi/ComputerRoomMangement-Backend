@@ -1,5 +1,6 @@
 package com.nchu.software.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,19 +17,17 @@ public class ComputerConfiguration implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 硬件配置
      */
-    @TableField(value = "hardware")
     private String hardware;
 
     /**
      * 软件配置
      */
-    @TableField(value = "software")
     private String software;
 
     @TableField(exist = false)

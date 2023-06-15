@@ -5,7 +5,7 @@
 <mapper namespace="com.nchu.software.mapper.ClazzPeriodMapper">
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.ClazzPeriod">
-            <id property="id" column="id" jdbcType="INTEGER"/>
+            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="clazz" column="clazz" jdbcType="VARCHAR"/>
             <result property="time" column="time" jdbcType="INTEGER"/>
     </resultMap>

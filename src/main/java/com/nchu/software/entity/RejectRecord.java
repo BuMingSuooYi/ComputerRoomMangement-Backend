@@ -1,5 +1,6 @@
 package com.nchu.software.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,19 +17,17 @@ public class RejectRecord implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 机房表主键
      */
-    @TableField(value = "machine_room")
     private Integer machineRoom;
 
     /**
      * 节次表主键
      */
-    @TableField(value = "section")
     private Integer section;
 
     @TableField(exist = false)

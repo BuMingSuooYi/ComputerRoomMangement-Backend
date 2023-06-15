@@ -1,5 +1,6 @@
 package com.nchu.software.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -16,31 +17,27 @@ public class Student implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 账户主键
      */
-    @TableField(value = "account")
     private Integer account;
 
     /**
      * 学号
      */
-    @TableField(value = "student_no")
     private String studentNo;
 
     /**
      * 姓名
      */
-    @TableField(value = "name")
     private String name;
 
     /**
      * 班级编号，例202061
      */
-    @TableField(value = "clazz")
     private String clazz;
 
     @TableField(exist = false)

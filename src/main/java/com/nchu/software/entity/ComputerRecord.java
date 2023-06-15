@@ -1,9 +1,9 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
+
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 import lombok.Data;
 
@@ -17,44 +17,40 @@ public class ComputerRecord implements Serializable {
     /**
      * 主键
      */
-    @TableId(value = "id")
-    private Integer id;
+    @TableId
+    private Long id;
 
     /**
      * 学生表主键
      */
-    @TableField(value = "student")
     private Integer student;
 
     /**
      * 电脑表主键
      */
-    @TableField(value = "computer")
     private Integer computer;
 
     /**
      * 起始时间
      */
-    @TableField(value = "start_time")
-    private Date startTime;
+    private LocalDateTime startTime;
 
     /**
      * 结束时间
      */
-    @TableField(value = "end_time")
-    private Date endTime;
+    private LocalDateTime endTime;
 
     /**
      * 创建时间
      */
-    @TableField(value = "create_time")
-    private Date createTime;
+    @TableField(value = "create_time",fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    @TableField(value = "update_time")
-    private Date updateTime;
+    @TableField(value = "update_time",fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

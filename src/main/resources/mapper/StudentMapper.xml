@@ -5,7 +5,7 @@
 <mapper namespace="com.nchu.software.mapper.StudentMapper">
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.Student">
-            <id property="id" column="id" jdbcType="INTEGER"/>
+            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="account" column="account" jdbcType="INTEGER"/>
             <result property="studentNo" column="student_no" jdbcType="VARCHAR"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>

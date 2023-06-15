@@ -5,10 +5,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
-* @author 15696
+* @author Lai
 * @description 针对表【computer_record(上机记录表)】的数据库操作Mapper
-* @createDate 2023-06-13 17:03:31
-* @Entity generator.entity.ComputerRecord
+* @createDate 2023-06-15 14:45:15
+* @Entity com.nchu.software.entity.ComputerRecord
 */
 @Mapper
 public interface ComputerRecordMapper extends BaseMapper<ComputerRecord> {
