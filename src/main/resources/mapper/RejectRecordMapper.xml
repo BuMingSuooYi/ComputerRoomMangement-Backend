@@ -6,8 +6,8 @@
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.RejectRecord">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="machineRoom" column="machine_room" jdbcType="INTEGER"/>
-            <result property="section" column="section" jdbcType="INTEGER"/>
+            <result property="machineRoom" column="machine_room" jdbcType="BIGINT"/>
+            <result property="section" column="section" jdbcType="BIGINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">

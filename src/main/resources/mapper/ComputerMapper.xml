@@ -7,8 +7,8 @@
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.Computer">
             <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="number" column="number" jdbcType="VARCHAR"/>
-            <result property="configuration" column="configuration" jdbcType="INTEGER"/>
-            <result property="machineRoom" column="machine_room" jdbcType="INTEGER"/>
+            <result property="configuration" column="configuration" jdbcType="BIGINT"/>
+            <result property="machineRoom" column="machine_room" jdbcType="BIGINT"/>
             <result property="cameraStand" column="camera_stand" jdbcType="INTEGER"/>
             <result property="state" column="state" jdbcType="INTEGER"/>
     </resultMap>

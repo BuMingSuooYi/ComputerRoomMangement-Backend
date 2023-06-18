@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 /**
 * @author Lai
 * @description 针对表【reject_record(机房不可用表)】的数据库操作Service实现
-* @createDate 2023-06-15 14:45:15
+* @createDate 2023-06-18 14:49:22
 */
 @Service
 public class RejectRecordServiceImpl extends ServiceImpl<RejectRecordMapper, RejectRecord>

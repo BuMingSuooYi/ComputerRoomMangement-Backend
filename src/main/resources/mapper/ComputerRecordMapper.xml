@@ -6,8 +6,8 @@
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.ComputerRecord">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="student" column="student" jdbcType="INTEGER"/>
-            <result property="computer" column="computer" jdbcType="INTEGER"/>
+            <result property="student" column="student" jdbcType="BIGINT"/>
+            <result property="computer" column="computer" jdbcType="BIGINT"/>
             <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
             <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
             <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>

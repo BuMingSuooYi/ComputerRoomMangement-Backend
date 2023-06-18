@@ -23,7 +23,7 @@ public class Student implements Serializable {
     /**
      * 账户主键
      */
-    private Integer account;
+    private Long account;
 
     /**
      * 学号

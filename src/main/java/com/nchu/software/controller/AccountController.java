@@ -59,7 +59,7 @@ public class AccountController {
         LambdaQueryWrapper<Account> lambdaQueryWrapper=new LambdaQueryWrapper();
         //条件
         if (!username.equals("-1"))
-            lambdaQueryWrapper.eq(Account::getUsername,username);
+            lambdaQueryWrapper.like(Account::getUsername,username);//用户名模糊查询
         if (type!=-1)
             lambdaQueryWrapper.eq(Account::getType,type);
         if (is_disabled!=-1)
@@ -76,19 +76,17 @@ public class AccountController {
      * @return
      */
     @PostMapping
-    public Result<String> newAccount(@RequestBody Account account) {
-        account.setIsDisabled(0);
-        account.setIsDeleted(0);
+    public Result<Account> newAccount(@RequestBody Account account) {
         accountService.save(account);
-        return Result.success("","新增成功");
+        return Result.success(account,"新增成功");
     }
 
     /**
-     * Excel导入
+     * Excel导入管理员账户(只允许导入管理账户，学生账户由导入学生自动产生)
      * @param file
      * @return Result<String>
      */
-    @PostMapping("/uploadFile")
+    @PostMapping("/uploadExcel")
     public Result<String> uploadFile(@RequestBody MultipartFile file) {
         /**
          * 文件上传临时路径
@@ -115,20 +113,17 @@ public class AccountController {
 
                 // 读取每一列的数据
                 String username = row.getCell(0).toString();
-                System.out.println(username);
                 String password = row.getCell(1).toString();
-                System.out.println(password);
                 int type = (int) row.getCell(2).getNumericCellValue();
-                System.out.println(type);
-
-                // 创建用户对象，并设置参数
-                Account account= new Account();
-                account.setUsername(username);
-                account.setPassword(password);
-                account.setType(type);
-                //保存到数据库
-                accountService.save(account);
-                num++;
+                //判断是不是管理员类型，跳过类型不正确的数据
+                if (type!=0&&type!=1){
+                    System.out.println("用户类型错误，跳过该数据");
+                    System.out.println(type);
+                    break;
+                }
+                //按参数保存账户
+                if (accountService.SaveFromParameters(username,password,type)!=null)
+                    num++;
             }
 
             return Result.success("成功新增" + num + "个账户");
@@ -150,35 +145,38 @@ public class AccountController {
                                         @RequestParam int type) {
 
         if (type==2){
+            System.out.println("222");
             //查询学生
             LambdaQueryWrapper<Student> lambdaQueryWrapper1=new LambdaQueryWrapper();
             lambdaQueryWrapper1.eq(Student::getAccount,id);
             Student student=studentService.getOne(lambdaQueryWrapper1);
 
-            //通过学生，删除该学生上机记录
-            LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper2=new LambdaQueryWrapper();
-            lambdaQueryWrapper2.eq(ComputerRecord::getStudent,student.getId());
-            computerRecordService.remove(lambdaQueryWrapper2);
+            if (student!=null) {
+                //通过学生，删除该学生上机记录
+                LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper2 = new LambdaQueryWrapper();
+                lambdaQueryWrapper2.eq(ComputerRecord::getStudent, student.getId());
+                computerRecordService.remove(lambdaQueryWrapper2);
 
-            //删除学生
-            studentService.remove(lambdaQueryWrapper1);
+                //删除学生
+                studentService.remove(lambdaQueryWrapper1);
+            }
         }
 
         //删除账户
-        accountService.removeById(id);
-        return Result.success("删除成功");
+        boolean f=accountService.removeById(id);
+        System.out.println(id);
+        return Result.success("删除成功"+f);
     }
 
     /**
      * 更新账户
      * @param account
      * @return boolean
-     */
+
+  */
     @PutMapping
-    public Result<String> updateAccount(@RequestBody Account account) {
-        LambdaQueryWrapper<Account> lambdaQueryWrapper=new LambdaQueryWrapper();
-        lambdaQueryWrapper.eq(Account::getUsername,account.getUsername());
-        accountService.update(account,lambdaQueryWrapper);
-        return Result.success("更新成功");
+    public Result<Account> updateAccount(@RequestBody Account account) {
+        accountService.updateById(account);
+        return Result.success(account,"更新成功");
     }
 }

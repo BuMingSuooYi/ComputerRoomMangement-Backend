@@ -41,7 +41,6 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1669235956856725505,'lai1','123456',2,0,0,NULL,NULL),(1669238365725179905,'lai2','123456',2,0,0,'2023-06-15 15:00:14','2023-06-15 15:00:14'),(1669244904670298113,'lai3','123456',2,0,0,'2023-06-15 15:26:13','2023-06-15 15:26:13'),(1669245286532276226,'lai3','123456',2,0,0,'2023-06-15 15:27:44','2023-06-15 15:27:44'),(1669245948070494210,'lai','123456',2,0,0,'2023-06-15 15:30:22','2023-06-15 15:30:22'),(1669339143529938945,'admain','123456.0',0,0,0,'2023-06-15 21:40:41','2023-06-15 21:40:41'),(1669339144737898497,'admain1','123456.0',1,0,0,'2023-06-15 21:40:42','2023-06-15 21:40:42'),(1669339144737898498,'admain2','123456.0',2,0,0,'2023-06-15 21:40:42','2023-06-15 21:40:42'),(1669339409117392898,'admain','123456.0',0,0,0,'2023-06-15 21:41:45','2023-06-15 21:41:45'),(1669339411499757570,'admain1','123456.0',1,0,0,'2023-06-15 21:41:45','2023-06-15 21:41:45'),(1669339411566866433,'admain2','123456.0',2,0,0,'2023-06-15 21:41:45','2023-06-15 21:41:45'),(1669339821253894146,'admain','123456.0',0,0,0,'2023-06-15 21:43:23','2023-06-15 21:43:23'),(1669339823506235393,'admain1','123456.0',1,0,0,'2023-06-15 21:43:23','2023-06-15 21:43:23'),(1669339823573344257,'admain2','123456.0',2,0,0,'2023-06-15 21:43:23','2023-06-15 21:43:23'),(1669342479884873730,'admain','123456.0',0,0,0,'2023-06-15 21:53:57','2023-06-15 21:53:57'),(1669342481206079489,'admain1','123456.0',1,0,0,'2023-06-15 21:53:57','2023-06-15 21:53:57'),(1669342481273188353,'admain2','123456.0',2,0,0,'2023-06-15 21:53:57','2023-06-15 21:53:57'),(1669343685210374146,'admain','123456.0',0,0,0,'2023-06-15 21:58:44','2023-06-15 21:58:44'),(1669343686393167873,'admain1','123456.0',1,0,0,'2023-06-15 21:58:44','2023-06-15 21:58:44'),(1669343686460276737,'admain2','123456.0',2,0,0,'2023-06-15 21:58:44','2023-06-15 21:58:44');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,8 +78,8 @@ DROP TABLE IF EXISTS `computer`;
 CREATE TABLE `computer` (
   `id` bigint NOT NULL COMMENT '主键',
   `number` varchar(255) DEFAULT NULL COMMENT '编号',
-  `configuration` int DEFAULT NULL COMMENT '电脑配置表主键',
-  `machine_room` int DEFAULT NULL COMMENT '隶属机房',
+  `configuration` bigint DEFAULT NULL COMMENT '电脑配置表主键',
+  `machine_room` bigint DEFAULT NULL COMMENT '隶属机房',
   `camera_stand` int DEFAULT NULL COMMENT '机位',
   `state` int DEFAULT NULL COMMENT '状态，0:空闲,1:使用中,2:维修中',
   PRIMARY KEY (`id`)
@@ -129,8 +128,8 @@ DROP TABLE IF EXISTS `computer_record`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `computer_record` (
   `id` bigint NOT NULL COMMENT '主键',
-  `student` int NOT NULL COMMENT '学生表主键',
-  `computer` int NOT NULL COMMENT '电脑表主键',
+  `student` bigint NOT NULL COMMENT '学生表主键',
+  `computer` bigint NOT NULL COMMENT '电脑表主键',
   `start_time` datetime DEFAULT NULL COMMENT '起始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
@@ -211,8 +210,8 @@ DROP TABLE IF EXISTS `reject_record`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reject_record` (
   `id` bigint NOT NULL COMMENT '主键',
-  `machine_room` int DEFAULT NULL COMMENT '机房表主键',
-  `section` int DEFAULT NULL COMMENT '节次表主键',
+  `machine_room` bigint DEFAULT NULL COMMENT '机房表主键',
+  `section` bigint DEFAULT NULL COMMENT '节次表主键',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='机房不可用表';
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -260,7 +259,7 @@ DROP TABLE IF EXISTS `student`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
   `id` bigint NOT NULL COMMENT '主键',
-  `account` int NOT NULL COMMENT '账户主键',
+  `account` bigint NOT NULL COMMENT '账户主键',
   `student_no` varchar(255) NOT NULL COMMENT '学号',
   `name` varchar(255) DEFAULT NULL COMMENT '姓名',
   `clazz` varchar(255) DEFAULT NULL COMMENT '班级编号，例202061',
@@ -286,4 +285,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-15 22:00:11
+-- Dump completed on 2023-06-18 16:12:17

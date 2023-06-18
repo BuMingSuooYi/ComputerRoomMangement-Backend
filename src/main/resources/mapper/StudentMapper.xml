@@ -6,7 +6,7 @@
 
     <resultMap id="BaseResultMap" type="com.nchu.software.entity.Student">
             <id property="id" column="id" jdbcType="BIGINT"/>
-            <result property="account" column="account" jdbcType="INTEGER"/>
+            <result property="account" column="account" jdbcType="BIGINT"/>
             <result property="studentNo" column="student_no" jdbcType="VARCHAR"/>
             <result property="name" column="name" jdbcType="VARCHAR"/>
             <result property="clazz" column="clazz" jdbcType="VARCHAR"/>

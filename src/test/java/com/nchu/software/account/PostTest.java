@@ -1,6 +1,7 @@
 package com.nchu.software.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nchu.software.common.Result;
@@ -73,8 +74,8 @@ public class PostTest {
     }
 
 
-
-//    public void deleteAccount() {
+    @Test
+    public void deleteAccount() {
 //        Long id=1669235956856725505;
 //        int type=2;
 //
@@ -95,8 +96,11 @@ public class PostTest {
 //
 //        //删除账户
 //        accountService.removeById(id);
-//        System.out.print("删除成功");
-//    }
+
+        //删除全部账户
+        accountService.remove(new QueryWrapper<>());
+        System.out.print("删除成功");
+    }
 
 
 //    @Test

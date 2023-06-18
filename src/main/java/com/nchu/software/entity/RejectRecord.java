@@ -23,12 +23,12 @@ public class RejectRecord implements Serializable {
     /**
      * 机房表主键
      */
-    private Integer machineRoom;
+    private Long machineRoom;
 
     /**
      * 节次表主键
      */
-    private Integer section;
+    private Long section;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

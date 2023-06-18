@@ -28,12 +28,12 @@ public class Computer implements Serializable {
     /**
      * 电脑配置表主键
      */
-    private Integer configuration;
+    private Long configuration;
 
     /**
      * 隶属机房
      */
-    private Integer machineRoom;
+    private Long machineRoom;
 
     /**
      * 机位
