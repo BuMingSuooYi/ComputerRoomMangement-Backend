@@ -1,19 +1,19 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import lombok.Data;
-
 /**
  * 机房不可用表
+ *
  * @TableName reject_record
  */
-@TableName(value ="reject_record")
+@TableName(value = "reject_record")
 @Data
 public class RejectRecord implements Serializable {
     /**
@@ -32,6 +32,9 @@ public class RejectRecord implements Serializable {
      */
     private Long section;
 
+    /**
+     * 日期
+     */
     private LocalDateTime time;
 
     @TableField(exist = false)
@@ -50,8 +53,8 @@ public class RejectRecord implements Serializable {
         }
         RejectRecord other = (RejectRecord) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getMachineRoom() == null ? other.getMachineRoom() == null : this.getMachineRoom().equals(other.getMachineRoom()))
-            && (this.getSection() == null ? other.getSection() == null : this.getSection().equals(other.getSection()));
+                && (this.getMachineRoom() == null ? other.getMachineRoom() == null : this.getMachineRoom().equals(other.getMachineRoom()))
+                && (this.getSection() == null ? other.getSection() == null : this.getSection().equals(other.getSection()));
     }
 
     @Override

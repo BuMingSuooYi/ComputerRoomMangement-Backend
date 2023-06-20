@@ -1,17 +1,18 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 电脑表
+ *
  * @TableName computer
  */
-@TableName(value ="computer")
+@TableName(value = "computer")
 @Data
 public class Computer implements Serializable {
     /**
@@ -61,11 +62,11 @@ public class Computer implements Serializable {
         }
         Computer other = (Computer) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
-            && (this.getConfiguration() == null ? other.getConfiguration() == null : this.getConfiguration().equals(other.getConfiguration()))
-            && (this.getMachineRoom() == null ? other.getMachineRoom() == null : this.getMachineRoom().equals(other.getMachineRoom()))
-            && (this.getCameraStand() == null ? other.getCameraStand() == null : this.getCameraStand().equals(other.getCameraStand()))
-            && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()));
+                && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
+                && (this.getConfiguration() == null ? other.getConfiguration() == null : this.getConfiguration().equals(other.getConfiguration()))
+                && (this.getMachineRoom() == null ? other.getMachineRoom() == null : this.getMachineRoom().equals(other.getMachineRoom()))
+                && (this.getCameraStand() == null ? other.getCameraStand() == null : this.getCameraStand().equals(other.getCameraStand()))
+                && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()));
     }
 
     @Override

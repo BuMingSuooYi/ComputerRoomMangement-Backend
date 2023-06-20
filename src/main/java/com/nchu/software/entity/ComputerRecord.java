@@ -1,17 +1,20 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Date;
-import lombok.Data;
 
 /**
  * 上机记录表
+ *
  * @TableName computer_record
  */
-@TableName(value ="computer_record")
+@TableName(value = "computer_record")
 @Data
 public class ComputerRecord implements Serializable {
     /**
@@ -68,12 +71,12 @@ public class ComputerRecord implements Serializable {
         }
         ComputerRecord other = (ComputerRecord) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getStudent() == null ? other.getStudent() == null : this.getStudent().equals(other.getStudent()))
-            && (this.getComputer() == null ? other.getComputer() == null : this.getComputer().equals(other.getComputer()))
-            && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
-            && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
+                && (this.getStudent() == null ? other.getStudent() == null : this.getStudent().equals(other.getStudent()))
+                && (this.getComputer() == null ? other.getComputer() == null : this.getComputer().equals(other.getComputer()))
+                && (this.getStartTime() == null ? other.getStartTime() == null : this.getStartTime().equals(other.getStartTime()))
+                && (this.getEndTime() == null ? other.getEndTime() == null : this.getEndTime().equals(other.getEndTime()))
+                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+                && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()));
     }
 
     @Override

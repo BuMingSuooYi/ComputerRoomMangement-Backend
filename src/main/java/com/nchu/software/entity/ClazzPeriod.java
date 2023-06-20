@@ -1,17 +1,18 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 班级学时表
+ *
  * @TableName clazz_period
  */
-@TableName(value ="clazz_period")
+@TableName(value = "clazz_period")
 @Data
 public class ClazzPeriod implements Serializable {
     /**
@@ -46,8 +47,8 @@ public class ClazzPeriod implements Serializable {
         }
         ClazzPeriod other = (ClazzPeriod) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getClazz() == null ? other.getClazz() == null : this.getClazz().equals(other.getClazz()))
-            && (this.getTime() == null ? other.getTime() == null : this.getTime().equals(other.getTime()));
+                && (this.getClazz() == null ? other.getClazz() == null : this.getClazz().equals(other.getClazz()))
+                && (this.getTime() == null ? other.getTime() == null : this.getTime().equals(other.getTime()));
     }
 
     @Override

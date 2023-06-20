@@ -1,17 +1,18 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 学生表
+ *
  * @TableName student
  */
-@TableName(value ="student")
+@TableName(value = "student")
 @Data
 public class Student implements Serializable {
     /**
@@ -40,8 +41,14 @@ public class Student implements Serializable {
      */
     private String clazz;
 
+    /**
+     * 性别 0:女，1:男
+     */
     private int sex;
 
+    /**
+     * 联系电话
+     */
     private String telephone;
 
     @TableField(exist = false)
@@ -60,10 +67,10 @@ public class Student implements Serializable {
         }
         Student other = (Student) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getAccount() == null ? other.getAccount() == null : this.getAccount().equals(other.getAccount()))
-            && (this.getStudentNo() == null ? other.getStudentNo() == null : this.getStudentNo().equals(other.getStudentNo()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getClazz() == null ? other.getClazz() == null : this.getClazz().equals(other.getClazz()));
+                && (this.getAccount() == null ? other.getAccount() == null : this.getAccount().equals(other.getAccount()))
+                && (this.getStudentNo() == null ? other.getStudentNo() == null : this.getStudentNo().equals(other.getStudentNo()))
+                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+                && (this.getClazz() == null ? other.getClazz() == null : this.getClazz().equals(other.getClazz()));
     }
 
     @Override

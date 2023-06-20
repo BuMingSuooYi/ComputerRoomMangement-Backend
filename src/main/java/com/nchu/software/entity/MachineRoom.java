@@ -1,17 +1,18 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 机房表
+ *
  * @TableName machine_room
  */
-@TableName(value ="machine_room")
+@TableName(value = "machine_room")
 @Data
 public class MachineRoom implements Serializable {
     /**
@@ -56,10 +57,10 @@ public class MachineRoom implements Serializable {
         }
         MachineRoom other = (MachineRoom) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getPattern() == null ? other.getPattern() == null : this.getPattern().equals(other.getPattern()))
-            && (this.getPrincipal() == null ? other.getPrincipal() == null : this.getPrincipal().equals(other.getPrincipal()))
-            && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()));
+                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+                && (this.getPattern() == null ? other.getPattern() == null : this.getPattern().equals(other.getPattern()))
+                && (this.getPrincipal() == null ? other.getPrincipal() == null : this.getPrincipal().equals(other.getPrincipal()))
+                && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()));
     }
 
     @Override
