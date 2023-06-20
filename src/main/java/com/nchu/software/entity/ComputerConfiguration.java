@@ -1,17 +1,18 @@
 package com.nchu.software.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * 电脑配置表
+ *
  * @TableName computer_configuration
  */
-@TableName(value ="computer_configuration")
+@TableName(value = "computer_configuration")
 @Data
 public class ComputerConfiguration implements Serializable {
     /**
@@ -19,6 +20,11 @@ public class ComputerConfiguration implements Serializable {
      */
     @TableId
     private Long id;
+
+    /**
+     * 配置名称
+     */
+    private String name;
 
     /**
      * 硬件配置
@@ -46,8 +52,8 @@ public class ComputerConfiguration implements Serializable {
         }
         ComputerConfiguration other = (ComputerConfiguration) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getHardware() == null ? other.getHardware() == null : this.getHardware().equals(other.getHardware()))
-            && (this.getSoftware() == null ? other.getSoftware() == null : this.getSoftware().equals(other.getSoftware()));
+                && (this.getHardware() == null ? other.getHardware() == null : this.getHardware().equals(other.getHardware()))
+                && (this.getSoftware() == null ? other.getSoftware() == null : this.getSoftware().equals(other.getSoftware()));
     }
 
     @Override
