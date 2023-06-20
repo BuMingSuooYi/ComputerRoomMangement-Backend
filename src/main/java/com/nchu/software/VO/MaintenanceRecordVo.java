@@ -6,5 +6,5 @@ import lombok.Data;
 
 @Data
 public class MaintenanceRecordVo extends MaintenanceRecord {
-    private Computer computer;
+    private Computer computerObject;
 }

@@ -80,10 +80,10 @@ public class ComputerController {
             BeanUtils.copyProperties(item, computerVo);
             // 获取机房
             MachineRoom machineRoom = machineRoomService.getById(item.getMachineRoom());
-            computerVo.setMachineRoomObject(machineRoom);
+            computerVo.setMachineRoomObjectObject(machineRoom);
             //获取配置
             ComputerConfiguration computerConfiguration=computerConfigurationService.getById(item.getConfiguration());
-            computerVo.setComputerConfiguration(computerConfiguration);
+            computerVo.setComputerConfigurationObject(computerConfiguration);
             return computerVo;
         }).collect(Collectors.toList());
         voPage.setRecords(computerVoList);

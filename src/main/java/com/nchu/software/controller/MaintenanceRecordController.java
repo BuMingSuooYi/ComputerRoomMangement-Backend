@@ -76,7 +76,7 @@ public class MaintenanceRecordController {
             BeanUtils.copyProperties(item, maintenanceRecordVo);
             // 设置获取列表
             Computer computer = computerService.getById(item.getComputer());
-            maintenanceRecordVo.setComputer(computer);
+            maintenanceRecordVo.setComputerObject(computer);
             return maintenanceRecordVo;
         }).collect(Collectors.toList());
         voPage.setRecords(maintenanceRecordVoList);

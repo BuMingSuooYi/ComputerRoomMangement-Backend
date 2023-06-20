@@ -7,9 +7,9 @@ import lombok.Data;
 
 @Data
 public class ComputerVo extends Computer {
-    private MachineRoom machineRoomObject;
+    private MachineRoom machineRoomObjectObject;
 
-    private ComputerConfiguration computerConfiguration;
+    private ComputerConfiguration computerConfigurationObject;
 
 
 
@@ -17,8 +17,8 @@ public class ComputerVo extends Computer {
     }
     public ComputerVo(Computer computer, MachineRoom machineRoomObject,ComputerConfiguration computerConfiguration){
         this.setComputer(computer);
-        this.setMachineRoomObject(machineRoomObject);
-        this.setComputerConfiguration(computerConfiguration);
+        this.setMachineRoomObjectObject(machineRoomObject);
+        this.setComputerConfigurationObject(computerConfiguration);
     }
 
     /**
