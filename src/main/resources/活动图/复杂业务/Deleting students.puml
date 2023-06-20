@@ -1,0 +1,16 @@
+@startuml
+|系统管理员|
+start
+:开始删除账户;
+|系统|
+if (是学生账户？) is (yes) then
+  :删除学生相关上机记录;
+  :删除学生信息;
+  :删除学生账户;
+else (no)
+  :删除账户;
+endif
+
+|系统管理员|
+stop
+@enduml

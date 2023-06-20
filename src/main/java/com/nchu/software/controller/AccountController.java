@@ -43,46 +43,47 @@ public class AccountController {
 
     /**
      * 条件分页查询账户
+     *
      * @param username
      * @param type
-     * @param is_disabled
-     * @param pageNum
+     * @param isDisabled
+     * @param page
      * @param pageSize
-     * @return Result<IPage<Account>>
+     * @return Result<IPage < Account>>
      */
     @GetMapping("/page")
-    public Result<IPage<Account>> getAccount(@RequestParam String username,
+    public Result<Page<Account>> getPage(@RequestParam Integer page,
+                                             @RequestParam Integer pageSize,
+                                             @RequestParam String username,
                                              @RequestParam Integer type,
-                                             @RequestParam Integer is_disabled,
-                                             @RequestParam Integer pageNum,
-                                             @RequestParam Integer pageSize) {
-        LambdaQueryWrapper<Account> lambdaQueryWrapper=new LambdaQueryWrapper();
+                                             @RequestParam Integer isDisabled
+    ) {
+        LambdaQueryWrapper<Account> lambdaQueryWrapper = new LambdaQueryWrapper();
         //条件
-        if (!username.equals("-1"))
-            lambdaQueryWrapper.like(Account::getUsername,username);//用户名模糊查询
-        if (type!=-1)
-            lambdaQueryWrapper.eq(Account::getType,type);
-        if (is_disabled!=-1)
-            lambdaQueryWrapper.eq(Account::getIsDisabled,is_disabled);
+        lambdaQueryWrapper.like(username != null, Account::getUsername, username)
+                .eq(type != -1, Account::getType, type)//用户名模糊查询
+                .eq(isDisabled != -1, Account::getIsDisabled, isDisabled);
         // 分页
-        Page<Account> page = new Page<>(pageNum, pageSize);
-        IPage<Account> accountPage = accountService.page(page, lambdaQueryWrapper);
-        return Result.success(accountPage);
+        Page<Account> page1 = new Page<>(page, pageSize);
+        accountService.page(page1, lambdaQueryWrapper);
+        return Result.success(page1, "查询成功");
     }
 
     /**
      * 新增账户
+     *
      * @param account
      * @return
      */
     @PostMapping
     public Result<Account> newAccount(@RequestBody Account account) {
         accountService.save(account);
-        return Result.success(account,"新增成功");
+        return Result.success(account, "新增成功");
     }
 
     /**
      * Excel导入管理员账户(只允许导入管理账户，学生账户由导入学生自动产生)
+     *
      * @param file
      * @return Result<String>
      */
@@ -91,13 +92,13 @@ public class AccountController {
         /**
          * 文件上传临时路径
          */
-            MultipartConfigFactory factory = new MultipartConfigFactory();
-            String location = "./";
-            File tmpFile = new File(location);
-            if (!tmpFile.exists()) {
-                tmpFile.mkdirs();
-            }
-            factory.setLocation(location);
+        MultipartConfigFactory factory = new MultipartConfigFactory();
+        String location = "D:\\UselessFile";
+        File tmpFile = new File(location);
+        if (!tmpFile.exists()) {
+            tmpFile.mkdirs();
+        }
+        factory.setLocation(location);
 
         try {
             // 创建 Workbook 对象，加载 Excel 文件
@@ -116,13 +117,13 @@ public class AccountController {
                 String password = row.getCell(1).toString();
                 int type = (int) row.getCell(2).getNumericCellValue();
                 //判断是不是管理员类型，跳过类型不正确的数据
-                if (type!=0&&type!=1){
+                if (type != 0 && type != 1) {
                     System.out.println("用户类型错误，跳过该数据");
                     System.out.println(type);
-                    break;
+                    continue;
                 }
                 //按参数保存账户
-                if (accountService.SaveFromParameters(username,password,type)!=null)
+                if (accountService.SaveFromParameters(username, password, type) != null)
                     num++;
             }
 
@@ -136,47 +137,47 @@ public class AccountController {
 
     /**
      * 删除用户
+     *
      * @param id
-     * @param type
      * @return
      */
     @DeleteMapping
-    public Result<String> deleteAccount(@RequestParam Long id,
-                                        @RequestParam int type) {
-
-        if (type==2){
-            System.out.println("222");
-            //查询学生
-            LambdaQueryWrapper<Student> lambdaQueryWrapper1=new LambdaQueryWrapper();
-            lambdaQueryWrapper1.eq(Student::getAccount,id);
-            Student student=studentService.getOne(lambdaQueryWrapper1);
-
-            if (student!=null) {
-                //通过学生，删除该学生上机记录
-                LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper2 = new LambdaQueryWrapper();
-                lambdaQueryWrapper2.eq(ComputerRecord::getStudent, student.getId());
-                computerRecordService.remove(lambdaQueryWrapper2);
-
-                //删除学生
-                studentService.remove(lambdaQueryWrapper1);
-            }
-        }
+    public Result<String> deleteAccount(@RequestParam Long id) {
+        /**
+         * 触发器删除学生上机记录
+         */
+//        if (type == 2) {
+//            //查询学生
+//            LambdaQueryWrapper<Student> lambdaQueryWrapper1 = new LambdaQueryWrapper();
+//            lambdaQueryWrapper1.eq(Student::getAccount, id);
+//            Student student = studentService.getOne(lambdaQueryWrapper1);
+//
+//            if (student != null) {
+//                //通过学生，删除该学生上机记录
+//                LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper2 = new LambdaQueryWrapper();
+//                lambdaQueryWrapper2.eq(ComputerRecord::getStudent, student.getId());
+//                computerRecordService.remove(lambdaQueryWrapper2);
+//
+//                //删除学生
+//                studentService.remove(lambdaQueryWrapper1);
+//            }
+//        }
 
         //删除账户
-        boolean f=accountService.removeById(id);
+        boolean f = accountService.removeById(id);
         System.out.println(id);
-        return Result.success("删除成功"+f);
+        return Result.success("删除成功");
     }
 
     /**
      * 更新账户
+     *
      * @param account
      * @return boolean
-
-  */
+     */
     @PutMapping
     public Result<Account> updateAccount(@RequestBody Account account) {
         accountService.updateById(account);
-        return Result.success(account,"更新成功");
+        return Result.success(account, "更新成功");
     }
 }
