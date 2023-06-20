@@ -4,15 +4,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.LoginLog;
-import com.nchu.software.entity.MachineRoom;
 import com.nchu.software.service.LoginLogService;
-import com.sun.tools.javac.util.List;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/logount")
 public class LoginLogController {
-    private  final LoginLogService loginLogService;
+    private final LoginLogService loginLogService;
 
     public LoginLogController(LoginLogService loginLogService) {
         this.loginLogService = loginLogService;
@@ -20,6 +20,7 @@ public class LoginLogController {
 
     /**
      * 条件查询登录日志
+     *
      * @param page
      * @param pageSize
      * @param username
