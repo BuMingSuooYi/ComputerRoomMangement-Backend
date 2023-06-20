@@ -1,11 +1,11 @@
 package com.nchu.software.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nchu.software.VO.ComputerVo;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.*;
+import com.nchu.software.service.ComputerConfigurationService;
 import com.nchu.software.service.ComputerService;
 import com.nchu.software.service.MachineRoomService;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,10 +17,7 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.stream.events.Comment;
 import java.io.File;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,10 +26,12 @@ import java.util.stream.Collectors;
 public class ComputerController {
     private final ComputerService computerService;
     private final MachineRoomService machineRoomService;
+    private final ComputerConfigurationService computerConfigurationService;
 
-    public ComputerController(ComputerService computerService, MachineRoomService machineRoomService) {
+    public ComputerController(ComputerService computerService, MachineRoomService machineRoomService, ComputerConfigurationService computerConfigurationService) {
         this.computerService = computerService;
         this.machineRoomService = machineRoomService;
+        this.computerConfigurationService = computerConfigurationService;
     }
 
     /**
@@ -55,19 +54,19 @@ public class ComputerController {
         LambdaQueryWrapper<Computer> lambdaQueryWrapperComputer = new LambdaQueryWrapper();
         LambdaQueryWrapper<MachineRoom> lambdaQueryWrapperMachineRoom = new LambdaQueryWrapper();
 
-//        //条件
-//        //电脑名称模糊查询
-//        lambdaQueryWrapperComputer.like(number != null, Computer::getNumber, number);
-//        //所属机房名称模糊查询
-//        lambdaQueryWrapperMachineRoom.like(machineRoomName != null, MachineRoom::getName, machineRoomName);
-//        List<MachineRoom> machineRoomList = machineRoomService.list(lambdaQueryWrapperMachineRoom);
-//        for (MachineRoom machineRoom : machineRoomList) {
-//            lambdaQueryWrapperComputer.in(Computer::getMachineRoom, machineRoom.getId());
-//
-//        }
-//        //状态查询
-//        lambdaQueryWrapperComputer.eq(state != -1, Computer::getState, state);
-        // 分页
+        //条件
+        //电脑名称模糊查询
+        lambdaQueryWrapperComputer.like(number != null, Computer::getNumber, number);
+        //所属机房名称模糊查询
+        lambdaQueryWrapperMachineRoom.like(machineRoomName != null, MachineRoom::getName, machineRoomName);
+        List<MachineRoom> machineRoomList = machineRoomService.list(lambdaQueryWrapperMachineRoom);
+        for (MachineRoom machineRoom : machineRoomList) {
+            lambdaQueryWrapperComputer.in(Computer::getMachineRoom, machineRoom.getId());
+
+        }
+        //状态查询
+        lambdaQueryWrapperComputer.eq(state != -1, Computer::getState, state);
+//         分页
         Page<Computer> page1 = new Page<>(page, pageSize);
         computerService.page(page1, lambdaQueryWrapperComputer);
 
@@ -79,10 +78,12 @@ public class ComputerController {
         List<ComputerVo> computerVoList = computerList.stream().map((item) -> {
             ComputerVo computerVo = new ComputerVo();
             BeanUtils.copyProperties(item, computerVo);
-            // 设置获取列表
+            // 获取机房
             MachineRoom machineRoom = machineRoomService.getById(item.getMachineRoom());
             computerVo.setMachineRoomObject(machineRoom);
-            System.out.println(computerVo.toString());
+            //获取配置
+            ComputerConfiguration computerConfiguration=computerConfigurationService.getById(item.getConfiguration());
+            computerVo.setComputerConfiguration(computerConfiguration);
             return computerVo;
         }).collect(Collectors.toList());
         voPage.setRecords(computerVoList);

@@ -1,18 +1,24 @@
 package com.nchu.software.VO;
 
 import com.nchu.software.entity.Computer;
+import com.nchu.software.entity.ComputerConfiguration;
 import com.nchu.software.entity.MachineRoom;
+import lombok.Data;
 
+@Data
 public class ComputerVo extends Computer {
     private MachineRoom machineRoomObject;
+
+    private ComputerConfiguration computerConfiguration;
 
 
 
     public ComputerVo(){
     }
-    public ComputerVo(Computer computer, MachineRoom machineRoomObject){
+    public ComputerVo(Computer computer, MachineRoom machineRoomObject,ComputerConfiguration computerConfiguration){
         this.setComputer(computer);
         this.setMachineRoomObject(machineRoomObject);
+        this.setComputerConfiguration(computerConfiguration);
     }
 
     /**
@@ -28,18 +34,4 @@ public class ComputerVo extends Computer {
         this.setState(computer.getState());
     }
 
-    public MachineRoom getMachineRoomObject() {
-        return machineRoomObject;
-    }
-
-    public void setMachineRoomObject(MachineRoom machineRoomObject) {
-        this.machineRoomObject = machineRoomObject;
-    }
-
-    @Override
-    public String toString() {
-        return "ComputerVo{" +
-                "machineRoomObject=" + machineRoomObject +
-                '}';
-    }
 }

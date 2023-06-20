@@ -40,6 +40,10 @@ public class Student implements Serializable {
      */
     private String clazz;
 
+    private int sex;
+
+    private String telephone;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 

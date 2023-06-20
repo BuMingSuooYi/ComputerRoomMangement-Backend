@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 /**
@@ -29,6 +31,8 @@ public class RejectRecord implements Serializable {
      * 节次表主键
      */
     private Long section;
+
+    private LocalDateTime time;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

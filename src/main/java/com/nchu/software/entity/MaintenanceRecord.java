@@ -24,7 +24,7 @@ public class MaintenanceRecord implements Serializable {
     /**
      * 电脑表主键
      */
-    private String computer;
+    private Long computer;
 
     /**
      * 起始时间
