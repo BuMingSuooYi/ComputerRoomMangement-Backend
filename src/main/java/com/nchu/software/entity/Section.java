@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  * 节次表
@@ -30,12 +30,12 @@ public class Section implements Serializable {
     /**
      * 起始时间
      */
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     /**
      * 结束时间
      */
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
