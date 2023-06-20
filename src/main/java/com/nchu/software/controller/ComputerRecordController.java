@@ -110,8 +110,8 @@ public class ComputerRecordController {
      * @return
      */
     @DeleteMapping
-    public Result<String> deleteComputerRecord(@RequestParam Long id) {
-        if (computerRecordService.removeById(id))
+    public Result<String> deleteComputerRecord(@RequestParam List<Long> id) {
+        if (computerRecordService.removeByIds(id))
             return Result.success("删除成功");
         return Result.success("删除失败");
     }

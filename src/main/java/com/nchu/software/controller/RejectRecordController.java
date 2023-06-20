@@ -102,8 +102,8 @@ public class RejectRecordController {
      * @return
      */
     @DeleteMapping
-    public Result<String> deleteRejectRecord(@RequestParam Long id) {
-        if (rejectRecordService.removeById(id))
+    public Result<String> deleteRejectRecord(@RequestParam List<Long> id) {
+        if (rejectRecordService.removeByIds(id))
             return Result.success("删除成功");
         return Result.success("删除失败");
     }

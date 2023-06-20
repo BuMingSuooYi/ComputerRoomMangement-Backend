@@ -6,6 +6,7 @@ import com.nchu.software.common.Result;
 import com.nchu.software.entity.LoginLog;
 import com.nchu.software.entity.MachineRoom;
 import com.nchu.software.service.LoginLogService;
+import com.sun.tools.javac.util.List;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -46,8 +47,8 @@ public class LoginLogController {
      * @return
      */
     @DeleteMapping
-    public Result<String> deleteLoginLog(@RequestParam Long id) {
-        if (loginLogService.removeById(id))
+    public Result<String> deleteLoginLog(@RequestParam List<Long> id) {
+        if (loginLogService.removeByIds(id))
             return Result.success("删除成功");
         return Result.success("删除失败");
     }

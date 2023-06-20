@@ -73,8 +73,8 @@ public class ClazzPeriodController {
      * @return
      */
     @DeleteMapping
-    public Result<String> deleteClazzPeriod(@RequestParam Long id) {
-        clazzPeriodService.removeById(id);
+    public Result<String> deleteClazzPeriod(@RequestParam List<Long> id) {
+        clazzPeriodService.removeByIds(id);
         return Result.success("删除成功");
     }
 

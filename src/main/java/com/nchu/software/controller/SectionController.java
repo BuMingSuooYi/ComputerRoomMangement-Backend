@@ -68,8 +68,8 @@ public class SectionController {
      * @return
      */
     @DeleteMapping
-    public Result<String> deleteSection(@RequestParam Long id) {
-        if (sectionService.removeById(id))
+    public Result<String> deleteSection(@RequestParam List<Long> id) {
+        if (sectionService.removeByIds(id))
             return Result.success("删除成功");
         return Result.success("删除失败");
     }

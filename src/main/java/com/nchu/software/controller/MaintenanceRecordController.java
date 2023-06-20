@@ -2,25 +2,15 @@ package com.nchu.software.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.nchu.software.VO.ComputerVo;
 import com.nchu.software.VO.MaintenanceRecordVo;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.Computer;
-import com.nchu.software.entity.MachineRoom;
 import com.nchu.software.entity.MaintenanceRecord;
 import com.nchu.software.service.ComputerService;
 import com.nchu.software.service.MaintenanceRecordService;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,6 +28,7 @@ public class MaintenanceRecordController {
 
     /**
      * 分页多条件查询维修记录
+     *
      * @param page
      * @param pageSize
      * @param number
@@ -56,19 +47,19 @@ public class MaintenanceRecordController {
         //条件
         //电脑名称模糊查询
         lambdaQueryWrapperComputer.like(number != null, Computer::getNumber, number);
-        List<Computer> computerList=computerService.list(lambdaQueryWrapperComputer);
-        for (Computer computer:computerList) {
-            lambdaQueryWrapperMaintenanceRecord.in(MaintenanceRecord::getComputer,computer.getId());
+        List<Computer> computerList = computerService.list(lambdaQueryWrapperComputer);
+        for (Computer computer : computerList) {
+            lambdaQueryWrapperMaintenanceRecord.in(MaintenanceRecord::getComputer, computer.getId());
         }
         //开始日期查询
-        lambdaQueryWrapperMaintenanceRecord.ge(startTime!=null,MaintenanceRecord::getStartTime, startTime);
+        lambdaQueryWrapperMaintenanceRecord.ge(startTime != null, MaintenanceRecord::getStartTime, startTime);
         // 分页
         Page<MaintenanceRecord> page1 = new Page<>(page, pageSize);
         maintenanceRecordService.page(page1, lambdaQueryWrapperMaintenanceRecord);
 
         Page<MaintenanceRecordVo> voPage = new Page<>();
         // 对象拷贝
-        BeanUtils.copyProperties(page, voPage,"records");
+        BeanUtils.copyProperties(page, voPage, "records");
         List<MaintenanceRecord> maintenanceRecordList = page1.getRecords();
         //给新字段赋值
         List<MaintenanceRecordVo> maintenanceRecordVoList = maintenanceRecordList.stream().map((item) -> {
@@ -105,8 +96,8 @@ public class MaintenanceRecordController {
      * @return
      */
     @DeleteMapping
-    public Result<String> deleteMaintenanceRecord(@RequestParam Long id) {
-        if (maintenanceRecordService.removeById(id))
+    public Result<String> deleteMaintenanceRecord(@RequestParam List<Long> id) {
+        if (maintenanceRecordService.removeByIds(id))
             return Result.success("删除成功");
         return Result.success("删除失败");
     }

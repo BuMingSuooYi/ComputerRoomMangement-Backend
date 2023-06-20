@@ -65,8 +65,8 @@ public class ComputerConfigurationController {
      * @return
      */
     @DeleteMapping
-    public Result<String> deleteComputerConfiguration(@RequestParam Long id) {
-        computerConfigurationService.removeById(id);
+    public Result<String> deleteComputerConfiguration(@RequestParam List<Long> id) {
+        computerConfigurationService.removeByIds(id);
         return Result.success("删除成功");
     }
 
