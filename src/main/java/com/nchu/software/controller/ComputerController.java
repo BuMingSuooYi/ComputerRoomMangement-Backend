@@ -76,7 +76,7 @@ public class ComputerController {
             BeanUtils.copyProperties(item, computerVo);
             // 获取机房
             MachineRoom machineRoom2 = machineRoomService.getById(item.getMachineRoom());
-            computerVo.setMachineRoomObjectObject(machineRoom2);
+            computerVo.setMachineRoomObject(machineRoom2);
             //获取配置
             ComputerConfiguration computerConfiguration=computerConfigurationService.getById(item.getConfiguration());
             computerVo.setComputerConfigurationObject(computerConfiguration);
