@@ -55,16 +55,26 @@ public class ComputerRecordController {
         //学生名字模糊搜索
         lambdaQueryWrapperStudent.like(student != null, Student::getName, student);
         List<Student> studentList=studentService.list(lambdaQueryWrapperStudent);
-        for (Student student1:studentList) {
-            lambdaQueryWrapperComputerRecord.in(ComputerRecord::getStudent,student1.getId());
-        }
+//        for (Student student1:studentList) {
+//            lambdaQueryWrapperComputerRecord.in(ComputerRecord::getStudent,student1.getId());
+//        }
+        List<Long> studentIds = studentList.stream()
+                .map(Student::getId)
+                .collect(Collectors.toList());
+
+        lambdaQueryWrapperComputerRecord.in(ComputerRecord::getStudent, studentIds);
         //机房id查询、电脑编号
         lambdaQueryWrapperComputer.eq(machineRoom!=-1,Computer::getMachineRoom, machineRoom);
         lambdaQueryWrapperComputer.like(computer!=null,Computer::getNumber, computer);
         List<Computer> computerList=computerService.list(lambdaQueryWrapperComputer);
-        for (Computer computer1:computerList) {
-            lambdaQueryWrapperComputerRecord.in(ComputerRecord::getComputer,computer1.getId());
-        }
+//        for (Computer computer1:computerList) {
+//            lambdaQueryWrapperComputerRecord.in(ComputerRecord::getComputer,computer1.getId());
+//        }
+        List<Long> computerIds = computerList.stream()
+                .map(Computer::getId)
+                .collect(Collectors.toList());
+
+        lambdaQueryWrapperComputerRecord.in(ComputerRecord::getComputer, computerIds);
         // 分页
         Page<ComputerRecord> page1 = new Page<>(page, pageSize);
         computerRecordService.page(page1, lambdaQueryWrapperComputerRecord);

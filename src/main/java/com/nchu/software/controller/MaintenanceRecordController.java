@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nchu.software.VO.MaintenanceRecordVo;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.Computer;
+import com.nchu.software.entity.ComputerRecord;
 import com.nchu.software.entity.MaintenanceRecord;
 import com.nchu.software.service.ComputerService;
 import com.nchu.software.service.MaintenanceRecordService;
@@ -48,9 +49,11 @@ public class MaintenanceRecordController {
         //电脑名称模糊查询
         lambdaQueryWrapperComputer.like(number != null, Computer::getNumber, number);
         List<Computer> computerList = computerService.list(lambdaQueryWrapperComputer);
-        for (Computer computer : computerList) {
-            lambdaQueryWrapperMaintenanceRecord.in(MaintenanceRecord::getComputer, computer.getId());
-        }
+        List<Long> computerIds = computerList.stream()
+                .map(Computer::getId)
+                .collect(Collectors.toList());
+
+        lambdaQueryWrapperMaintenanceRecord.in(MaintenanceRecord::getComputer, computerIds);
         //开始日期查询
         lambdaQueryWrapperMaintenanceRecord.ge(startTime != null, MaintenanceRecord::getStartTime, startTime);
         // 分页
