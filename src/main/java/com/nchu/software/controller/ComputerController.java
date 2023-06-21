@@ -38,7 +38,7 @@ public class ComputerController {
      * 分页多条件查询电脑
      *
      * @param number
-     * @param machineRoomName（机房名称）
+     * @param machineRoom（机房名称）
      * @param state
      * @param page
      * @param pageSize
@@ -48,7 +48,7 @@ public class ComputerController {
     public Result<Page<ComputerVo>> getPage(@RequestParam Integer page,
                                             @RequestParam Integer pageSize,
                                             @RequestParam String number,
-                                            @RequestParam String machineRoomName,
+                                            @RequestParam Long machineRoom,
                                             @RequestParam Integer state
                                             ) {
         LambdaQueryWrapper<Computer> lambdaQueryWrapperComputer = new LambdaQueryWrapper();
@@ -57,13 +57,9 @@ public class ComputerController {
         //条件
         //电脑名称模糊查询
         lambdaQueryWrapperComputer.like(number != null, Computer::getNumber, number);
-        //所属机房名称模糊查询
-        lambdaQueryWrapperMachineRoom.like(machineRoomName != null, MachineRoom::getName, machineRoomName);
-        List<MachineRoom> machineRoomList = machineRoomService.list(lambdaQueryWrapperMachineRoom);
-        for (MachineRoom machineRoom : machineRoomList) {
-            lambdaQueryWrapperComputer.in(Computer::getMachineRoom, machineRoom.getId());
+        //所属机房id查询
+        lambdaQueryWrapperComputer.eq(machineRoom != -1, Computer::getMachineRoom, machineRoom);
 
-        }
         //状态查询
         lambdaQueryWrapperComputer.eq(state != -1, Computer::getState, state);
 //         分页
@@ -79,8 +75,8 @@ public class ComputerController {
             ComputerVo computerVo = new ComputerVo();
             BeanUtils.copyProperties(item, computerVo);
             // 获取机房
-            MachineRoom machineRoom = machineRoomService.getById(item.getMachineRoom());
-            computerVo.setMachineRoomObjectObject(machineRoom);
+            MachineRoom machineRoom2 = machineRoomService.getById(item.getMachineRoom());
+            computerVo.setMachineRoomObjectObject(machineRoom2);
             //获取配置
             ComputerConfiguration computerConfiguration=computerConfigurationService.getById(item.getConfiguration());
             computerVo.setComputerConfigurationObject(computerConfiguration);
