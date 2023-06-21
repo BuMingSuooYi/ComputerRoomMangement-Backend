@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.ClazzPeriod;
 import com.nchu.software.entity.ComputerConfiguration;
+import com.nchu.software.entity.MachineRoom;
 import com.nchu.software.service.ComputerConfigurationService;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +42,17 @@ public class ComputerConfigurationController {
         Page<ComputerConfiguration> page1 = new Page<>(page, pageSize);
         computerConfigurationService.page(page1,lambdaQueryWrapper);
         return Result.success(page1, "查询成功");
+    }
+
+    /**
+     * 获取全部电脑配置
+     * @return
+     */
+    @GetMapping
+    public Result<List<ComputerConfiguration>> getAll() {
+
+        List<ComputerConfiguration> computerConfigurationList=computerConfigurationService.list(new LambdaQueryWrapper<>());
+        return Result.success(computerConfigurationList, "查询成功");
     }
 
 

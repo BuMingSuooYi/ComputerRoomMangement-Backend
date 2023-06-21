@@ -3,6 +3,8 @@ package com.nchu.software.service;
 import com.nchu.software.entity.MachineRoom;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.regex.Pattern;
+
 /**
 * @author Lai
 * @description 针对表【machine_room(机房表)】的数据库操作Service
@@ -10,4 +12,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface MachineRoomService extends IService<MachineRoom> {
 
+
+    int result(String str);
 }

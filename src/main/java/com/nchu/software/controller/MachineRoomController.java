@@ -14,6 +14,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/machineRoom")
@@ -142,20 +144,17 @@ public class MachineRoomController {
     @PutMapping
     public Result<MachineRoom> updateMachineRoom(@RequestBody MachineRoom machineRoom) {
         MachineRoom machineRoomOld = machineRoomService.getById(machineRoom.getId());
-        //导入js
-        ScriptEngineManager manager = new ScriptEngineManager();
-        ScriptEngine engine = manager.getEngineByName("js");
+
 
         int oldResult;
         int newResult;
-        try {
-            //计算字符串a*b的结果
-            oldResult = Integer.parseInt(engine.eval(machineRoomOld.getPattern()).toString());
-            newResult = Integer.parseInt(engine.eval(machineRoom.getPattern()).toString());
-            System.out.println();
-        } catch (ScriptException e) {
-            return Result.success(machineRoom, "更新失败，排列模式有误");
-        }
+        //计算字符串a*b的结果
+        oldResult = machineRoomService.result(machineRoomOld.getPattern());
+        newResult = machineRoomService.result(machineRoom.getPattern());
+        System.out.println();
+
+        if (oldResult==-1||newResult==-1)
+            return Result.success(machineRoom, "更新失败");
 
         //判断新旧排列模式大小
         if (oldResult > newResult) {
