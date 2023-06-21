@@ -91,6 +91,17 @@ public class ComputerController {
     }
 
     /**
+     * 获取全部电脑
+     * @return
+     */
+    @GetMapping
+    public Result<List<Computer>> getAll() {
+
+        List<Computer> computerList=computerService.list(new LambdaQueryWrapper<>());
+        return Result.success(computerList, "查询成功");
+    }
+
+    /**
      * Excel导入电脑
      *
      * @param file

@@ -39,7 +39,7 @@ public class MaintenanceRecordController {
     public Result<Page<MaintenanceRecordVo>> getPage(@RequestParam Integer page,
                                                      @RequestParam Integer pageSize,
                                                      @RequestParam String number,
-                                                     @RequestParam LocalDateTime startTime
+                                                     @RequestParam(required = false) LocalDateTime startTime
     ) {
         LambdaQueryWrapper<MaintenanceRecord> lambdaQueryWrapperMaintenanceRecord = new LambdaQueryWrapper();
         LambdaQueryWrapper<Computer> lambdaQueryWrapperComputer = new LambdaQueryWrapper();

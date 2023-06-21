@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/logount")
+@RequestMapping("/LoginLog")
 public class LoginLogController {
     private final LoginLogService loginLogService;
 
