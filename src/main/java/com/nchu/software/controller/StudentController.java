@@ -67,6 +67,24 @@ public class StudentController {
     }
 
     /**
+     * 通过学生名称查询学生
+     *
+     * @param name
+     * @return Result<Student>
+     */
+    @GetMapping("/name")
+    public Result<Student> getPage(@RequestParam String name
+    ) {
+        LambdaQueryWrapper<Student> lambdaQueryWrapper = new LambdaQueryWrapper();
+        //条件
+        lambdaQueryWrapper.eq(Student::getName, name);//名字查询
+
+        // 分页
+        Student student=studentService.getOne(lambdaQueryWrapper);
+        return Result.success(student, "查询成功");
+    }
+
+    /**
      * 新增学生(并生成账户)
      *
      * @param student
