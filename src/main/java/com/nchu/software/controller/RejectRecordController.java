@@ -48,7 +48,7 @@ public class RejectRecordController {
     public Result<Page<RejectRecordVo>> getPage(@RequestParam Integer page,
                                                 @RequestParam Integer pageSize,
                                                 @RequestParam Long machineRoom,
-                                                @RequestParam LocalDateTime time
+                                                @RequestParam(required = false) LocalDateTime time
     ) {
         LambdaQueryWrapper<RejectRecord> lambdaQueryWrapperRejectRecord = new LambdaQueryWrapper();
 
