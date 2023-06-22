@@ -35,7 +35,7 @@ public class LoginLog implements Serializable {
     /**
      * 登录时间
      */
-    private Date loginTime;
+    private LocalDateTime loginTime;
 
     /**
      * 备注，0登录失败1登录成功
