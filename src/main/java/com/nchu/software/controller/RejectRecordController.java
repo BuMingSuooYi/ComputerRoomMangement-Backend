@@ -62,7 +62,7 @@ public class RejectRecordController {
         rejectRecordService.page(page1, lambdaQueryWrapperRejectRecord);
         Page<RejectRecordVo> voPage = new Page<>();
         // 对象拷贝
-        BeanUtils.copyProperties(page, voPage,"records");
+        BeanUtils.copyProperties(page1, voPage,"records");
         List<RejectRecord> rejectRecordList = page1.getRecords();
         //给新字段赋值
         List<RejectRecordVo> rejectRecordVoList = rejectRecordList.stream().map((item) -> {

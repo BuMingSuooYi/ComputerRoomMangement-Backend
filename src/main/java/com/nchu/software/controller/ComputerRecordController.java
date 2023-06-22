@@ -81,7 +81,7 @@ public class ComputerRecordController {
 
         Page<ComputerRecordVo> voPage = new Page<>();
         // 对象拷贝
-        BeanUtils.copyProperties(page, voPage,"records");
+        BeanUtils.copyProperties(page1, voPage,"records");
         List<ComputerRecord> computerRecordList = page1.getRecords();
         //给新字段赋值
         List<ComputerRecordVo> computerRecordVoList = computerRecordList.stream().map((item) -> {
