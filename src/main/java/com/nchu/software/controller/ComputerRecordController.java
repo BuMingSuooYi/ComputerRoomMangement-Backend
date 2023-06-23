@@ -146,11 +146,11 @@ public class ComputerRecordController {
      * @return
      */
     @PutMapping("/logout")
-    public Result<ComputerRecord> logout(@RequestBody Long computer) {
+    public Result<ComputerRecord> logout(@RequestParam Long computer) {
         //根据电脑查询到未结束的上机记录
         LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper = new LambdaQueryWrapper();
         lambdaQueryWrapper.eq(ComputerRecord::getComputer,computer)
-                .eq(ComputerRecord::getEndTime,null);
+                .isNull(ComputerRecord::getEndTime);
         ComputerRecord computerRecord=computerRecordService.getOne(lambdaQueryWrapper);
         //更改电脑状态为空闲
         Computer computer1=computerService.getById(computerRecord.getComputer());
