@@ -54,10 +54,10 @@ public class AccountController {
      */
     @GetMapping("/page")
     public Result<Page<Account>> getPage(@RequestParam Integer page,
-                                             @RequestParam Integer pageSize,
-                                             @RequestParam String username,
-                                             @RequestParam Integer type,
-                                             @RequestParam Integer isDisabled
+                                         @RequestParam Integer pageSize,
+                                         @RequestParam String username,
+                                         @RequestParam Integer type,
+                                         @RequestParam Integer isDisabled
     ) {
         LambdaQueryWrapper<Account> lambdaQueryWrapper = new LambdaQueryWrapper();
         //条件
@@ -78,7 +78,7 @@ public class AccountController {
      */
     @PostMapping
     public Result<Account> newAccount(@RequestBody Account account) {
-        if (account.getType()!= 0 && account.getType() != 1) {
+        if (account.getType() != 0 && account.getType() != 1) {
             return Result.success(account, "用户类型错误，新增失败");
         }
         accountService.save(account);
@@ -150,12 +150,12 @@ public class AccountController {
         /**
          * 触发器删除学生上机记录
          */
-//        if (type == 2) {
-//            //查询学生
-//            LambdaQueryWrapper<Student> lambdaQueryWrapper1 = new LambdaQueryWrapper();
-//            lambdaQueryWrapper1.eq(Student::getAccount, id);
-//            Student student = studentService.getOne(lambdaQueryWrapper1);
-//
+
+        //查询学生
+        LambdaQueryWrapper<Student> lambdaQueryWrapper1 = new LambdaQueryWrapper();
+        lambdaQueryWrapper1.eq(Student::getAccount, id);
+        Student student = studentService.getOne(lambdaQueryWrapper1);
+
 //            if (student != null) {
 //                //通过学生，删除该学生上机记录
 //                LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper2 = new LambdaQueryWrapper();
@@ -163,9 +163,9 @@ public class AccountController {
 //                computerRecordService.remove(lambdaQueryWrapper2);
 //
 //                //删除学生
-//                studentService.remove(lambdaQueryWrapper1);
+        if (student!=null)
+            studentService.removeById(student);
 //            }
-//        }
 
         //删除账户
         boolean f = accountService.removeById(id);

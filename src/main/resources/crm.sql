@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.7.40, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 --
--- Host: localhost    Database: crm
+-- Host: 127.0.0.1    Database: crm
 -- ------------------------------------------------------
--- Server version	5.7.40-log
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,18 +21,18 @@
 
 DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `account` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `username` varchar(255) NOT NULL COMMENT '用户名',
   `password` varchar(255) NOT NULL COMMENT '密码',
-  `type` int(11) NOT NULL COMMENT '人员类型 0:系统管理员,1:教师,2:学生',
-  `is_disabled` int(11) NOT NULL DEFAULT '0' COMMENT '账户是否禁用 0:未禁用,1:禁用',
-  `is_deleted` int(11) DEFAULT '0' COMMENT '是否删除 0:未删除,1:已删除',
+  `type` int NOT NULL COMMENT '人员类型 0:系统管理员,1:教师,2:学生',
+  `is_disabled` int NOT NULL DEFAULT '0' COMMENT '账户是否禁用 0:未禁用,1:禁用',
+  `is_deleted` int DEFAULT '0' COMMENT '是否删除 0:未删除,1:已删除',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='账户表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='账户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +41,7 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (1671753091944677377,'20206101','Ocwr0GUduQ',2,0,0,'2023-06-22 13:32:51','2023-06-22 13:32:51'),(1671753399089364994,'20206102','3sNIc8V06g',2,0,0,'2023-06-22 13:34:05','2023-06-22 13:34:05'),(1671753497517096961,'20206103','3tdfzXaC6S',2,0,0,'2023-06-22 13:34:28','2023-06-22 13:34:28'),(1671753597861625858,'admin','123456',0,0,0,'2023-06-22 13:34:52','2023-06-22 13:34:52');
+INSERT INTO `account` VALUES (1671753091944677377,'20206101','Ocwr0GUduQ',2,0,0,'2023-06-22 13:32:51','2023-06-22 13:32:51'),(1671753399089364994,'20206102','3sNIc8V06g',2,0,0,'2023-06-22 13:34:05','2023-06-22 13:34:05'),(1671753497517096961,'20206103','3tdfzXaC6S',2,0,0,'2023-06-22 13:34:28','2023-06-22 13:34:28'),(1671753597861625858,'admin','123456',0,0,0,'2023-06-22 13:34:52','2023-06-22 13:34:52'),(1672128636976685058,'20206107','35qcEAwtYj',2,0,1,'2023-06-23 14:25:08','2023-06-23 14:25:08');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,13 +51,13 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `clazz_period`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `clazz_period` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `clazz` varchar(255) DEFAULT NULL COMMENT '班级，例如:202061',
-  `time` int(11) DEFAULT NULL COMMENT '学时',
+  `time` int DEFAULT NULL COMMENT '学时',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='班级学时表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='班级学时表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -76,16 +76,16 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `computer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `computer` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `number` varchar(255) DEFAULT NULL COMMENT '编号',
-  `configuration` bigint(20) DEFAULT NULL COMMENT '电脑配置表主键',
-  `machine_room` bigint(20) DEFAULT NULL COMMENT '隶属机房',
-  `camera_stand` int(11) DEFAULT NULL COMMENT '机位',
-  `state` int(11) DEFAULT NULL COMMENT '状态，0:空闲,1:使用中,2:维修中',
+  `configuration` bigint DEFAULT NULL COMMENT '电脑配置表主键',
+  `machine_room` bigint DEFAULT NULL COMMENT '隶属机房',
+  `camera_stand` int DEFAULT NULL COMMENT '机位',
+  `state` int DEFAULT NULL COMMENT '状态，0:空闲,1:使用中,2:维修中',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='电脑表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='电脑表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +94,7 @@ CREATE TABLE `computer` (
 
 LOCK TABLES `computer` WRITE;
 /*!40000 ALTER TABLE `computer` DISABLE KEYS */;
-INSERT INTO `computer` VALUES (1671403979563069442,'小新air17-001',1671148923576041473,1671125365932089345,1,1),(1671405542528421890,'小新air17-002',1671149026403553282,1671125365932089345,2,1),(1671749653882077185,'小新air17-003',1671148923576041473,1671125365932089345,3,2),(1671762632149172225,'小新air17-004',1671148923576041473,1671125365932089345,4,0),(1671848734356914178,'小新air17-005',1671148923576041473,1671125365932089345,5,0),(1671849005082460161,'小新air17-006',1671148923576041473,1671125365932089345,6,0);
+INSERT INTO `computer` VALUES (1671403979563069442,'小新air17-001',1671148923576041473,1671125365932089345,1,1),(1671405542528421890,'小新air17-002',1671149026403553282,1671125365932089345,2,1),(1671749653882077185,'小新air17-003',1671148923576041473,1671125365932089345,3,2),(1671762632149172225,'小新air17-004',1671148923576041473,1671125365932089345,4,1),(1671848734356914178,'小新air17-005',1671148923576041473,1671125365932089345,5,1),(1671849005082460161,'小新air17-006',1671148923576041473,1671125365932089345,6,1);
 /*!40000 ALTER TABLE `computer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -104,14 +104,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `computer_configuration`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `computer_configuration` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `name` varchar(255) DEFAULT NULL COMMENT '配置名称',
   `hardware` varchar(255) DEFAULT NULL COMMENT '硬件配置',
   `software` varchar(255) DEFAULT NULL COMMENT '软件配置',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='电脑配置表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='电脑配置表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,17 +130,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `computer_record`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `computer_record` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
-  `student` bigint(20) NOT NULL COMMENT '学生表主键',
-  `computer` bigint(20) NOT NULL COMMENT '电脑表主键',
+  `id` bigint NOT NULL COMMENT '主键',
+  `student` bigint NOT NULL COMMENT '学生表主键',
+  `computer` bigint NOT NULL COMMENT '电脑表主键',
   `start_time` datetime DEFAULT NULL COMMENT '起始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上机记录表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='上机记录表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -149,7 +149,6 @@ CREATE TABLE `computer_record` (
 
 LOCK TABLES `computer_record` WRITE;
 /*!40000 ALTER TABLE `computer_record` DISABLE KEYS */;
-INSERT INTO `computer_record` VALUES (1671861108627456001,1671753092334747649,1671762632149172225,NULL,NULL,'2023-06-22 20:42:05','2023-06-22 20:42:05'),(1671875072102600706,1671753092334747649,1671403979563069442,NULL,NULL,'2023-06-22 21:37:34','2023-06-22 21:37:34'),(1671879319758077954,1671753092334747649,1671403979563069442,NULL,NULL,'2023-06-22 21:54:27','2023-06-22 21:54:27');
 /*!40000 ALTER TABLE `computer_record` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -159,18 +158,18 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `login_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `login_log` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `username` varchar(255) DEFAULT NULL COMMENT '电脑主键',
   `login_ip` varchar(255) DEFAULT NULL COMMENT '起始时间',
   `login_time` datetime DEFAULT NULL COMMENT '结束时间',
-  `status` int(11) DEFAULT NULL COMMENT '备注，0登录失败1登录成功',
+  `status` int DEFAULT NULL COMMENT '备注，0登录失败1登录成功',
   `info` varchar(255) DEFAULT NULL COMMENT '其它说明',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,15 +188,15 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `machine_room`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `machine_room` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `name` varchar(255) DEFAULT NULL COMMENT '机房名 例：D301',
   `pattern` varchar(255) DEFAULT NULL COMMENT '排列模式 例如2*3，代表2行3列',
   `principal` varchar(255) DEFAULT NULL COMMENT '负责人',
-  `state` int(11) DEFAULT NULL COMMENT '状态 0:未开放,1:开放',
+  `state` int DEFAULT NULL COMMENT '状态 0:未开放,1:开放',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机房表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='机房表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -216,9 +215,9 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `maintenance_record`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `maintenance_record` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `computer` varchar(255) NOT NULL COMMENT '电脑表主键',
   `start_time` datetime DEFAULT NULL COMMENT '起始时间',
   `end_time` datetime DEFAULT NULL COMMENT '结束时间',
@@ -226,7 +225,7 @@ CREATE TABLE `maintenance_record` (
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='电脑维修记录表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='电脑维修记录表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -245,14 +244,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `reject_record`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reject_record` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
-  `machine_room` bigint(20) DEFAULT NULL COMMENT '机房表主键',
-  `section` bigint(20) DEFAULT NULL COMMENT '节次表主键',
+  `id` bigint NOT NULL COMMENT '主键',
+  `machine_room` bigint DEFAULT NULL COMMENT '机房表主键',
+  `section` bigint DEFAULT NULL COMMENT '节次表主键',
   `time` datetime DEFAULT NULL COMMENT '日期',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='机房不可用表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='机房不可用表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -271,14 +270,14 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `section`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `section` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
+  `id` bigint NOT NULL COMMENT '主键',
   `number` varchar(255) DEFAULT NULL COMMENT '节次，例如:1',
   `start_time` time DEFAULT NULL COMMENT '起始时间',
   `end_time` time DEFAULT NULL COMMENT '结束时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='节次表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='节次表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -297,17 +296,17 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `student`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `student` (
-  `id` bigint(20) NOT NULL COMMENT '主键',
-  `account` bigint(20) NOT NULL COMMENT '账户主键',
+  `id` bigint NOT NULL COMMENT '主键',
+  `account` bigint NOT NULL COMMENT '账户主键',
   `student_no` varchar(255) NOT NULL COMMENT '学号',
   `name` varchar(255) DEFAULT NULL COMMENT '姓名',
   `clazz` varchar(255) DEFAULT NULL COMMENT '班级编号，例202061',
-  `sex` int(11) DEFAULT NULL COMMENT '性别，0:女,1:男',
+  `sex` int DEFAULT NULL COMMENT '性别，0:女,1:男',
   `telephone` varchar(255) DEFAULT NULL COMMENT '联系电话',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='学生表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='学生表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -316,17 +315,26 @@ CREATE TABLE `student` (
 
 LOCK TABLES `student` WRITE;
 /*!40000 ALTER TABLE `student` DISABLE KEYS */;
-INSERT INTO `student` VALUES (1671753092334747649,1671753091944677377,'20206101','张三','202061',1,'18888888888'),(1671753399684956161,1671753399089364994,'20206102','李四','202061',1,'18888888887'),(1671753498246905858,1671753497517096961,'20206103','王五','202061',1,'18888888886');
 /*!40000 ALTER TABLE `student` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping events for database 'crm'
---
-
---
--- Dumping routines for database 'crm'
---
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `before_delete_student` BEFORE DELETE ON `student` FOR EACH ROW BEGIN
+    -- 删除相关上机记录
+    DELETE FROM computer_record WHERE student = OLD.id;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -337,4 +345,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-06-22 22:19:13
+-- Dump completed on 2023-06-23 14:29:54
