@@ -136,14 +136,30 @@ public class ComputerRecordController {
      */
     @PutMapping
     public Result<ComputerRecord> updateComputerRecord(@RequestBody ComputerRecord computerRecord) {
+        computerRecordService.updateById(computerRecord);
+        return Result.success(computerRecord, "更新成功");
+    }
+
+    /**
+     * 下机
+     * @param computer
+     * @return
+     */
+    @PutMapping("/logout")
+    public Result<ComputerRecord> logout(@RequestBody Long computer) {
+        //根据电脑查询到未结束的上机记录
+        LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper = new LambdaQueryWrapper();
+        lambdaQueryWrapper.eq(ComputerRecord::getComputer,computer)
+                .eq(ComputerRecord::getEndTime,null);
+        ComputerRecord computerRecord=computerRecordService.getOne(lambdaQueryWrapper);
         //更改电脑状态为空闲
-        Computer computer=computerService.getById(computerRecord.getComputer());
-        computer.setState(0);
-        computerService.updateById(computer);
+        Computer computer1=computerService.getById(computerRecord.getComputer());
+        computer1.setState(0);
+        computerService.updateById(computer1);
         //添入结束时间
         computerRecord.setEndTime(LocalDateTime.now());
         computerRecordService.updateById(computerRecord);
-        return Result.success(computerRecord, "更新成功");
+        return Result.success(computerRecord, "下机成功");
     }
 }
 
