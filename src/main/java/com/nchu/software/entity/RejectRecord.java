@@ -6,7 +6,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 机房不可用表
@@ -79,5 +81,15 @@ public class RejectRecord implements Serializable {
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
+    }
+
+    public void setTime(String time){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate date = LocalDate.parse(time, formatter);
+        this.setTime(date.atStartOfDay());
+    }
+
+    public void setTime(LocalDateTime time){
+        this.time=time;
     }
 }

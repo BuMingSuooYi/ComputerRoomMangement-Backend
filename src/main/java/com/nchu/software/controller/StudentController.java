@@ -11,22 +11,29 @@ import com.nchu.software.entity.Student;
 import com.nchu.software.service.AccountService;
 import com.nchu.software.service.ComputerRecordService;
 import com.nchu.software.service.StudentService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author Lai
  * @Date 2023-06-16 13:37
  * @Description
  */
+@Slf4j
 @RestController
 @RequestMapping("/student")
 public class StudentController {
@@ -52,10 +59,10 @@ public class StudentController {
      */
     @GetMapping("/page")
     public Result<Page<Student>> getPage(@RequestParam Integer page,
-                                            @RequestParam Integer pageSize,
-                                            @RequestParam String studentNo,
-                                            @RequestParam String name,
-                                            @RequestParam String clazz
+                                         @RequestParam Integer pageSize,
+                                         @RequestParam String studentNo,
+                                         @RequestParam String name,
+                                         @RequestParam String clazz
     ) {
         LambdaQueryWrapper<Student> lambdaQueryWrapper = new LambdaQueryWrapper();
         //条件
@@ -82,7 +89,7 @@ public class StudentController {
         lambdaQueryWrapper.eq(Student::getName, name);//名字查询
 
         // 分页
-        Student student=studentService.getOne(lambdaQueryWrapper);
+        Student student = studentService.getOne(lambdaQueryWrapper);
         return Result.success(student, "查询成功");
     }
 
@@ -136,13 +143,16 @@ public class StudentController {
 
                 // 读取每一列的数据
                 String student_no = MyExcel.OriginalStringDisplay(row.getCell(0));
-                String name = MyExcel.OriginalStringDisplay(row.getCell(1));;
-                String clazz = MyExcel.OriginalStringDisplay(row.getCell(2));;
-                int sex =(int) row.getCell(3).getNumericCellValue();
-                String telephone = MyExcel.OriginalStringDisplay(row.getCell(4));;
+                String name = MyExcel.OriginalStringDisplay(row.getCell(1));
+                ;
+                String clazz = MyExcel.OriginalStringDisplay(row.getCell(2));
+                ;
+                int sex = (int) row.getCell(3).getNumericCellValue();
+                String telephone = MyExcel.OriginalStringDisplay(row.getCell(4));
+                ;
 
                 //创建学生账户并保存在数据库
-                Account account=accountService.SaveStudent(student_no);
+                Account account = accountService.SaveStudent(student_no);
 
                 // 创建学生对象，并设置参数
                 Student student = new Student();
@@ -165,6 +175,49 @@ public class StudentController {
         }
     }
 
+    @GetMapping("/download")
+    public void download(HttpServletResponse response) {
+        LambdaQueryWrapper lambdaQueryWrapper=new LambdaQueryWrapper<>();
+        // 创建学生列表
+        List<Student> studentList =studentService.list();
+        log.info("{}",studentList);
+
+        // 创建工作簿和工作表
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Students");
+
+        // 创建标题行
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("学号");
+        headerRow.createCell(1).setCellValue("姓名");
+        headerRow.createCell(2).setCellValue("班级");
+        headerRow.createCell(3).setCellValue("性别");
+        headerRow.createCell(4).setCellValue("电话");
+
+        // 填充学生数据
+        int rowNum = 1;
+        for (Student student : studentList) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(String.valueOf(student.getId()));
+            row.createCell(1).setCellValue(student.getName());
+            row.createCell(2).setCellValue(student.getClazz());
+            row.createCell(3).setCellValue(student.getSex());
+            row.createCell(4).setCellValue(student.getTelephone());
+        }
+
+        // 设置响应头信息
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=students.xlsx");
+
+        // 将工作簿写入响应输出流
+        try {
+            workbook.write(response.getOutputStream());
+            workbook.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * 删除学生
@@ -178,7 +231,7 @@ public class StudentController {
         lambdaQueryWrapper.eq(ComputerRecord::getStudent, id);
         computerRecordService.remove(lambdaQueryWrapper);
         //删除学生账户
-        Student student=studentService.getById(id);
+        Student student = studentService.getById(id);
         accountService.removeById(student.getAccount());
         //删除学生
         studentService.removeById(id);

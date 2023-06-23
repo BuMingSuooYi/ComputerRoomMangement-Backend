@@ -12,12 +12,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.BeanUtils;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -150,6 +153,47 @@ public class ComputerController {
         } catch (Exception e) {
             e.printStackTrace();
             return Result.success("数据格式不正确，导入失败!!!");
+        }
+    }
+
+    @GetMapping("/download")
+    public void download(HttpServletResponse response) {
+        // 创建电脑列表
+        List<Computer> computerList =computerService.list();
+
+        // 创建工作簿和工作表
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Computer");
+
+        // 创建标题行
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("编号");
+        headerRow.createCell(1).setCellValue("配置");
+        headerRow.createCell(2).setCellValue("隶属机房");
+        headerRow.createCell(3).setCellValue("机位");
+        headerRow.createCell(4).setCellValue("状态");
+
+        // 填充电脑数据
+        int rowNum = 1;
+        for (Computer computer : computerList) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(computer.getNumber());
+            row.createCell(1).setCellValue(String.valueOf(computer.getConfiguration()));
+            row.createCell(2).setCellValue(String.valueOf(computer.getMachineRoom()));
+            row.createCell(3).setCellValue(computer.getCameraStand());
+            row.createCell(4).setCellValue(computer.getState());
+        }
+
+        // 设置响应头信息
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=Computer.xlsx");
+
+        // 将工作簿写入响应输出流
+        try {
+            workbook.write(response.getOutputStream());
+            workbook.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

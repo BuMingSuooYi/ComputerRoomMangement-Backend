@@ -3,15 +3,24 @@ package com.nchu.software.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nchu.software.VO.MaintenanceRecordVo;
+import com.nchu.software.common.MyExcel;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.Computer;
 import com.nchu.software.entity.ComputerRecord;
 import com.nchu.software.entity.MaintenanceRecord;
 import com.nchu.software.service.ComputerService;
 import com.nchu.software.service.MaintenanceRecordService;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +49,7 @@ public class MaintenanceRecordController {
     public Result<Page<MaintenanceRecordVo>> getPage(@RequestParam Integer page,
                                                      @RequestParam Integer pageSize,
                                                      @RequestParam String number,
-                                                     @RequestParam(required = false) LocalDateTime startTime
+                                                     @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime startTime
     ) {
         LambdaQueryWrapper<MaintenanceRecord> lambdaQueryWrapperMaintenanceRecord = new LambdaQueryWrapper();
         LambdaQueryWrapper<Computer> lambdaQueryWrapperComputer = new LambdaQueryWrapper();
@@ -76,7 +85,6 @@ public class MaintenanceRecordController {
         voPage.setRecords(maintenanceRecordVoList);
         return Result.success(voPage, "查询成功");
     }
-
 
     /**
      * 新增维修记录

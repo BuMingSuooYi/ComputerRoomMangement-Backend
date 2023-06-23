@@ -11,18 +11,23 @@ import com.nchu.software.entity.Student;
 import com.nchu.software.service.AccountService;
 import com.nchu.software.service.ComputerRecordService;
 import com.nchu.software.service.StudentService;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.MultipartConfigElement;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @Author JayHrn
@@ -41,6 +46,28 @@ public class AccountController {
         this.studentService = studentService;
         this.computerRecordService = computerRecordService;
     }
+
+    @GetMapping("/login")
+    public Result<Account> getPage(@RequestParam String username,
+                                         @RequestParam String password,
+                                         @RequestParam Integer type
+    ) {
+        //md5加密
+        password = DigestUtils.md5Hex(password);
+        //用户名密码校验
+        LambdaQueryWrapper<Account> lambdaQueryWrapper=new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Account::getUsername,username)
+                .eq(Account::getPassword,password)
+                .eq(Account::getType,type);
+        Account account=accountService.getOne(lambdaQueryWrapper);
+        if (account!=null){
+            return Result.success(account,"登录成功");
+        }
+        return Result.error("登录失败");
+
+
+    }
+
 
     /**
      * 条件分页查询账户
@@ -81,6 +108,9 @@ public class AccountController {
         if (account.getType() != 0 && account.getType() != 1) {
             return Result.success(account, "用户类型错误，新增失败");
         }
+        //md5加密
+        account.setPassword(DigestUtils.md5Hex(account.getPassword()));
+        //保存账户
         accountService.save(account);
         return Result.success(account, "新增成功");
     }
@@ -138,6 +168,43 @@ public class AccountController {
         }
     }
 
+    @GetMapping("/download")
+    public void download(HttpServletResponse response) {
+        // 创建账户列表
+        List<Account> accountList =accountService.list();
+
+        // 创建工作簿和工作表
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("Account");
+
+        // 创建标题行
+        Row headerRow = sheet.createRow(0);
+        headerRow.createCell(0).setCellValue("用户名");
+        headerRow.createCell(1).setCellValue("密码");
+        headerRow.createCell(2).setCellValue("人员类型");
+
+        // 填充账户数据
+        int rowNum = 1;
+        for (Account account : accountList) {
+            Row row = sheet.createRow(rowNum++);
+            row.createCell(0).setCellValue(String.valueOf(account.getUsername()));
+            row.createCell(1).setCellValue(account.getPassword());
+            row.createCell(2).setCellValue(account.getType());
+        }
+
+        // 设置响应头信息
+        response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        response.setHeader("Content-Disposition", "attachment; filename=Account.xlsx");
+
+        // 将工作簿写入响应输出流
+        try {
+            workbook.write(response.getOutputStream());
+            workbook.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     /**
      * 删除用户
@@ -174,13 +241,14 @@ public class AccountController {
     }
 
     /**
-     * 更新账户
+     * 修改密码
      *
      * @param account
      * @return boolean
      */
     @PutMapping
     public Result<Account> updateAccount(@RequestBody Account account) {
+        account.setPassword(DigestUtils.md5Hex(account.getPassword()));
         accountService.updateById(account);
         return Result.success(account, "更新成功");
     }

@@ -5,6 +5,7 @@ import com.nchu.software.common.RandomString;
 import com.nchu.software.entity.Account;
 import com.nchu.software.service.AccountService;
 import com.nchu.software.mapper.AccountMapper;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -27,6 +28,8 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
             // 创建用户对象，并设置参数
             Account account= new Account();
             account.setUsername(username);
+            //md5加密
+            password = DigestUtils.md5Hex(password);
             account.setPassword(password);
             account.setType(type);
             //保存到数据库
@@ -47,7 +50,9 @@ public class AccountServiceImpl extends ServiceImpl<AccountMapper, Account>
             // 创建用户对象，并设置参数
             Account account= new Account();
             account.setUsername(username);
-            account.setPassword(RandomString.getRanStr(10));
+            //md5加密
+            String password = DigestUtils.md5Hex("123456");
+            account.setPassword(password);
             account.setType(2);
             //保存到数据库
             if (this.save(account))
