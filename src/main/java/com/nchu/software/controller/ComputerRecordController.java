@@ -15,6 +15,7 @@ import com.nchu.software.service.StudentService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,9 +56,6 @@ public class ComputerRecordController {
         //学生名字模糊搜索
         lambdaQueryWrapperStudent.like(student != null, Student::getName, student);
         List<Student> studentList=studentService.list(lambdaQueryWrapperStudent);
-//        for (Student student1:studentList) {
-//            lambdaQueryWrapperComputerRecord.in(ComputerRecord::getStudent,student1.getId());
-//        }
         List<Long> studentIds = studentList.stream()
                 .map(Student::getId)
                 .collect(Collectors.toList());
@@ -67,9 +65,6 @@ public class ComputerRecordController {
         lambdaQueryWrapperComputer.eq(machineRoom!=-1,Computer::getMachineRoom, machineRoom);
         lambdaQueryWrapperComputer.like(computer!=null,Computer::getNumber, computer);
         List<Computer> computerList=computerService.list(lambdaQueryWrapperComputer);
-//        for (Computer computer1:computerList) {
-//            lambdaQueryWrapperComputerRecord.in(ComputerRecord::getComputer,computer1.getId());
-//        }
         List<Long> computerIds = computerList.stream()
                 .map(Computer::getId)
                 .collect(Collectors.toList());
@@ -107,8 +102,15 @@ public class ComputerRecordController {
      */
     @PostMapping
     public Result<ComputerRecord> newComputerRecord(@RequestBody ComputerRecord computerRecord) {
-        if (computerRecordService.save(computerRecord))
+        computerRecord.setStartTime(LocalDateTime.now());
+        if (computerRecordService.save(computerRecord)){
+            //更改电脑状态为使用
+            Computer computer=computerService.getById(computerRecord.getComputer());
+            computer.setState(1);
+            computerService.updateById(computer);
             return Result.success(computerRecord, "新增成功");
+        }
+
         return Result.success(computerRecord, "新增失败");
     }
 
@@ -134,6 +136,12 @@ public class ComputerRecordController {
      */
     @PutMapping
     public Result<ComputerRecord> updateComputerRecord(@RequestBody ComputerRecord computerRecord) {
+        //更改电脑状态为空闲
+        Computer computer=computerService.getById(computerRecord.getComputer());
+        computer.setState(0);
+        computerService.updateById(computer);
+        //添入结束时间
+        computerRecord.setEndTime(LocalDateTime.now());
         computerRecordService.updateById(computerRecord);
         return Result.success(computerRecord, "更新成功");
     }

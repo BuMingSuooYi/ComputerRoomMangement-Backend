@@ -3,6 +3,7 @@ package com.nchu.software.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.nchu.software.common.MyExcel;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.Account;
 import com.nchu.software.entity.ComputerRecord;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.text.DecimalFormat;
 
 /**
  * @Author Lai
@@ -133,18 +135,24 @@ public class StudentController {
                 Row row = sheet.getRow(i);
 
                 // 读取每一列的数据
-                String student_no = row.getCell(0).toString();
-                String name = row.getCell(1).toString();
-                String clazz = row.getCell(2).toString();
+                String student_no = MyExcel.OriginalStringDisplay(row.getCell(0));
+                String name = MyExcel.OriginalStringDisplay(row.getCell(1));;
+                String clazz = MyExcel.OriginalStringDisplay(row.getCell(2));;
+                int sex =(int) row.getCell(3).getNumericCellValue();
+                String telephone = MyExcel.OriginalStringDisplay(row.getCell(4));;
 
                 //创建学生账户并保存在数据库
-                accountService.SaveStudent(student_no);
+                Account account=accountService.SaveStudent(student_no);
 
                 // 创建学生对象，并设置参数
                 Student student = new Student();
                 student.setStudentNo(student_no);
                 student.setName(name);
                 student.setClazz(clazz);
+                student.setSex(sex);
+                student.setTelephone(telephone);
+                //将上面创建的账号id设置在学生表中
+                student.setAccount(account.getId());
                 //保存到数据库
                 studentService.save(student);
                 num++;

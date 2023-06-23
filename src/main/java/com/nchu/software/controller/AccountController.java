@@ -3,6 +3,7 @@ package com.nchu.software.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.nchu.software.common.MyExcel;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.Account;
 import com.nchu.software.entity.ComputerRecord;
@@ -77,6 +78,9 @@ public class AccountController {
      */
     @PostMapping
     public Result<Account> newAccount(@RequestBody Account account) {
+        if (account.getType()!= 0 && account.getType() != 1) {
+            return Result.success(account, "用户类型错误，新增失败");
+        }
         accountService.save(account);
         return Result.success(account, "新增成功");
     }
@@ -113,8 +117,8 @@ public class AccountController {
                 Row row = sheet.getRow(i);
 
                 // 读取每一列的数据
-                String username = row.getCell(0).toString();
-                String password = row.getCell(1).toString();
+                String username = MyExcel.OriginalStringDisplay(row.getCell(0));
+                String password = MyExcel.OriginalStringDisplay(row.getCell(1));
                 int type = (int) row.getCell(2).getNumericCellValue();
                 //判断是不是管理员类型，跳过类型不正确的数据
                 if (type != 0 && type != 1) {

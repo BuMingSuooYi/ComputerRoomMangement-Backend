@@ -178,8 +178,12 @@ public class ComputerController {
          * 触发器，删除电脑对应维修记录
          */
         //删除电脑
-        computerService.removeById(id);
-        return Result.success("删除成功");
+        Computer computer=computerService.getById(id);
+        if (computer.getState()!=1){
+            computerService.removeById(id);
+            return Result.success("删除成功");
+        }
+        return Result.success("删除失败，电脑可能正在使用");
     }
 
     /**
@@ -190,7 +194,10 @@ public class ComputerController {
      */
     @PutMapping
     public Result<Computer> updateComputer(@RequestBody Computer computer) {
-        computerService.updateById(computer);
-        return Result.success(computer, "更新成功");
+        if (computer.getState() != 1) {
+            computerService.updateById(computer);
+            return Result.success(computer, "更新成功");
+        }
+        return Result.success(computer, "无法更新，电脑正在使用");
     }
 }
