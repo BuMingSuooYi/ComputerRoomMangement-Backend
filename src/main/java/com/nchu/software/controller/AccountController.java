@@ -1,12 +1,10 @@
 package com.nchu.software.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nchu.software.common.MyExcel;
 import com.nchu.software.common.Result;
 import com.nchu.software.entity.Account;
-import com.nchu.software.entity.ComputerRecord;
 import com.nchu.software.entity.Student;
 import com.nchu.software.service.AccountService;
 import com.nchu.software.service.ComputerRecordService;
@@ -18,15 +16,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -47,25 +42,34 @@ public class AccountController {
         this.computerRecordService = computerRecordService;
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public Result<Account> getPage(@RequestParam String username,
-                                         @RequestParam String password,
-                                         @RequestParam Integer type
+                                   @RequestParam String password,
+                                   @RequestParam Integer type
     ) {
-        //md5加密
+        //密码md5加密
         password = DigestUtils.md5Hex(password);
-        //用户名密码校验
-        LambdaQueryWrapper<Account> lambdaQueryWrapper=new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(Account::getUsername,username)
-                .eq(Account::getPassword,password)
-                .eq(Account::getType,type);
-        Account account=accountService.getOne(lambdaQueryWrapper);
-        if (account!=null){
-            return Result.success(account,"登录成功");
+        //用户名密码校验（用户名唯一校验）
+        LambdaQueryWrapper<Account> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(Account::getUsername, username);
+        Account account = accountService.getOne(lambdaQueryWrapper);
+        // 账户不存在
+        if (account == null) {
+            return Result.error("账户不存在");
         }
-        return Result.error("登录失败");
-
-
+        // 密码错误
+        if (!account.getPassword().equals(password)) {
+            return Result.error("密码错误");
+        }
+        // 人员类型一致
+        if (!account.getType().equals(type)) {
+            return Result.error("人员类型不匹配");
+        }
+        // 账户被禁用
+        if (account.getIsDisabled() == 1) {
+            return Result.error("账户被禁用");
+        }
+        return Result.success(account, "登录成功");
     }
 
 
@@ -106,7 +110,7 @@ public class AccountController {
     @PostMapping
     public Result<Account> newAccount(@RequestBody Account account) {
         if (account.getType() != 0 && account.getType() != 1) {
-            return Result.success(account, "用户类型错误，新增失败");
+            return Result.error("用户类型错误，新增失败");
         }
         //md5加密
         account.setPassword(DigestUtils.md5Hex(account.getPassword()));
@@ -171,7 +175,7 @@ public class AccountController {
     @GetMapping("/download")
     public void download(HttpServletResponse response) {
         // 创建账户列表
-        List<Account> accountList =accountService.list();
+        List<Account> accountList = accountService.list();
 
         // 创建工作簿和工作表
         Workbook workbook = new XSSFWorkbook();
@@ -230,7 +234,7 @@ public class AccountController {
 //                computerRecordService.remove(lambdaQueryWrapper2);
 //
 //                //删除学生
-        if (student!=null)
+        if (student != null)
             studentService.removeById(student);
 //            }
 
