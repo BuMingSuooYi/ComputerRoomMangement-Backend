@@ -1,7 +1,6 @@
 package com.nchu.software.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.nchu.software.common.MyExcel;
 import com.nchu.software.common.Result;
@@ -24,8 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -62,8 +59,7 @@ public class StudentController {
                                          @RequestParam Integer pageSize,
                                          @RequestParam String studentNo,
                                          @RequestParam String name,
-                                         @RequestParam String clazz
-    ) {
+                                         @RequestParam String clazz) {
         LambdaQueryWrapper<Student> lambdaQueryWrapper = new LambdaQueryWrapper();
         //条件
         lambdaQueryWrapper.like(studentNo != null, Student::getStudentNo, studentNo);//学号模糊查询
@@ -75,6 +71,24 @@ public class StudentController {
         return Result.success(page1, "查询成功");
     }
 
+
+    /**
+     * 通过账户id查询学生
+     *
+     * @param account
+     * @return Result<Student>
+     */
+    @GetMapping("/account")
+    public Result<Student> getPage(@RequestParam Long account) {
+        LambdaQueryWrapper<Student> lambdaQueryWrapper = new LambdaQueryWrapper();
+        //条件
+        lambdaQueryWrapper.eq(Student::getAccount, account);//账户查询
+        // 分页
+        Student student = studentService.getOne(lambdaQueryWrapper);
+        return Result.success(student, "查询成功");
+    }
+
+
     /**
      * 通过学生名称查询学生
      *
@@ -82,8 +96,7 @@ public class StudentController {
      * @return Result<Student>
      */
     @GetMapping("/name")
-    public Result<Student> getPage(@RequestParam String name
-    ) {
+    public Result<Student> getPage(@RequestParam String name) {
         LambdaQueryWrapper<Student> lambdaQueryWrapper = new LambdaQueryWrapper();
         //条件
         lambdaQueryWrapper.eq(Student::getName, name);//名字查询
@@ -177,10 +190,10 @@ public class StudentController {
 
     @GetMapping("/download")
     public void download(HttpServletResponse response) {
-        LambdaQueryWrapper lambdaQueryWrapper=new LambdaQueryWrapper<>();
+        LambdaQueryWrapper lambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 创建学生列表
-        List<Student> studentList =studentService.list();
-        log.info("{}",studentList);
+        List<Student> studentList = studentService.list();
+        log.info("{}", studentList);
 
         // 创建工作簿和工作表
         Workbook workbook = new XSSFWorkbook();
