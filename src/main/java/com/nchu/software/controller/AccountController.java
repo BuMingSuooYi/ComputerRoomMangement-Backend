@@ -8,6 +8,7 @@ import com.nchu.software.entity.Account;
 import com.nchu.software.entity.Student;
 import com.nchu.software.service.AccountService;
 import com.nchu.software.service.ComputerRecordService;
+import com.nchu.software.service.LoginLogService;
 import com.nchu.software.service.StudentService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,6 +20,7 @@ import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
@@ -34,16 +36,17 @@ import java.util.List;
 public class AccountController {
     private final AccountService accountService;
     private final StudentService studentService;
-    private final ComputerRecordService computerRecordService;
+    private final LoginLogService loginLogService;
 
-    public AccountController(AccountService accountService, StudentService studentService, ComputerRecordService computerRecordService) {
+    public AccountController(AccountService accountService, StudentService studentService, ComputerRecordService computerRecordService, LoginLogService loginLogService) {
         this.accountService = accountService;
         this.studentService = studentService;
-        this.computerRecordService = computerRecordService;
+        this.loginLogService = loginLogService;
     }
 
     @PostMapping("/login")
-    public Result<Account> getPage(@RequestParam String username,
+    public Result<Account> getPage(HttpServletRequest request,
+                                   @RequestParam String username,
                                    @RequestParam String password,
                                    @RequestParam Integer type
     ) {
@@ -51,25 +54,34 @@ public class AccountController {
         password = DigestUtils.md5Hex(password);
         //用户名密码校验（用户名唯一校验）
         LambdaQueryWrapper<Account> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(Account::getUsername, username);
+        lambdaQueryWrapper.eq(Account::getUsername, username)
+                .eq(Account::getType,type);
         Account account = accountService.getOne(lambdaQueryWrapper);
+
+        String info = "";
+        System.out.println(loginLogService.getIp(request));
+
         // 账户不存在
         if (account == null) {
-            return Result.error("账户不存在");
+            info = "账户不存在";
+            loginLogService.addLoginLog(username,loginLogService.getIp(request), 0, info);
+            return Result.error(info);
         }
         // 密码错误
         if (!account.getPassword().equals(password)) {
-            return Result.error("密码错误");
-        }
-        // 人员类型一致
-        if (!account.getType().equals(type)) {
-            return Result.error("人员类型不匹配");
+            info = "密码错误";
+            loginLogService.addLoginLog(username,loginLogService.getIp(request), 0, info);
+            return Result.error(info);
         }
         // 账户被禁用
         if (account.getIsDisabled() == 1) {
-            return Result.error("账户被禁用");
+            info = "账户被禁用";
+            loginLogService.addLoginLog(username,loginLogService.getIp(request), 0, info);
+            return Result.error(info);
         }
-        return Result.success(account, "登录成功");
+        info = "登录成功";
+        loginLogService.addLoginLog(username,loginLogService.getIp(request), 1, info);
+        return Result.success(account, info);
     }
 
 
@@ -112,6 +124,12 @@ public class AccountController {
         if (account.getType() != 0 && account.getType() != 1) {
             return Result.error("用户类型错误，新增失败");
         }
+//        LambdaQueryWrapper<Account> lambdaQueryWrapper=new LambdaQueryWrapper<>();
+//        lambdaQueryWrapper.eq(Account::getUsername,account.getUsername())
+//                .eq(Account::getType,account.getType());
+//        if (accountService.getOne(lambdaQueryWrapper)!=null) {
+//            return Result.error("用户已存在，新增失败");
+//        }
         //md5加密
         account.setPassword(DigestUtils.md5Hex(account.getPassword()));
         //保存账户
