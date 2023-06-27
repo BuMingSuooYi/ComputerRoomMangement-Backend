@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/analyse")
@@ -19,14 +20,16 @@ public class analyseController {
     private final StudentService studentService;
     private final MaintenanceRecordService maintenanceRecordService;
     private final ClazzPeriodService clazzPeriodService;
+    private  final AccountService accountService;
 
-    public analyseController(ComputerRecordService computerRecordService, MachineRoomService machineRoomService, ComputerService computerService, StudentService studentService, MaintenanceRecordService maintenanceRecordService, ClazzPeriodService clazzPeriodService) {
+    public analyseController(ComputerRecordService computerRecordService, MachineRoomService machineRoomService, ComputerService computerService, StudentService studentService, MaintenanceRecordService maintenanceRecordService, ClazzPeriodService clazzPeriodService, AccountService accountService) {
         this.computerRecordService = computerRecordService;
         this.machineRoomService = machineRoomService;
         this.computerService = computerService;
         this.studentService = studentService;
         this.maintenanceRecordService = maintenanceRecordService;
         this.clazzPeriodService = clazzPeriodService;
+        this.accountService = accountService;
     }
 
     /**
@@ -161,13 +164,19 @@ public class analyseController {
         return Result.success(computerMap,"统计成功");
     }
 
+
+
     /**
      * 获取自己和目标学时的差
      * @return Result<List<Double>>
      */
     @GetMapping("/period")
-    public Result<List<Double>> period(@RequestParam Long student,
-                               @RequestParam String clazz) {
+    public Result<List<Double>> period(@RequestParam long account) {
+        //通过账户获取学生班级
+        LambdaQueryWrapper<Student> studentLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        studentLambdaQueryWrapper.eq(Student::getAccount,account);
+        Student student=studentService.getOne(studentLambdaQueryWrapper);
+        String clazz=student.getClazz();
         //按学生查询上机记录
         LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper=new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(ComputerRecord::getStudent,student);
@@ -186,6 +195,62 @@ public class analyseController {
         timeList.add(time);
         timeList.add((double) clazzPeriod.getTime());
         return Result.success(timeList,"成功获得自己学时和目标学时");
+    }
+
+    /**
+     * 获取本学生排名
+     * @return
+     */
+    @GetMapping("/studentRanking")
+    public Result<Integer> studentRanking(@RequestParam long account) {
+        //通过账户获取学生班级
+        LambdaQueryWrapper<Student> studentLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        studentLambdaQueryWrapper.eq(Student::getAccount,account);
+        Student student=studentService.getOne(studentLambdaQueryWrapper);
+        String clazz=student.getClazz();
+        //根据班级获取学生列表
+        studentLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        studentLambdaQueryWrapper.eq(Student::getClazz,clazz);
+        List<Student> studentList=studentService.list(studentLambdaQueryWrapper);
+        List<Long> studentIds = studentList.stream()
+                .map(Student::getId)
+                .collect(Collectors.toList());
+        //获取这些学生的上机记录
+        LambdaQueryWrapper<ComputerRecord> computerRecordLambdaQueryWrapper=new LambdaQueryWrapper<>();
+        computerRecordLambdaQueryWrapper.eq(ComputerRecord::getStudent,studentIds);
+        List<ComputerRecord> computerRecordList=computerRecordService.list(computerRecordLambdaQueryWrapper);
+
+        Map<Long,Double> studentIdMap=new HashMap<>();
+        //给该班学生统计上机时间
+        for (ComputerRecord computerRecord:computerRecordList) {
+            if (studentIdMap.containsKey(computerRecord.getStudent())){
+                //存在，累加上机时间
+                Double oldTime=studentIdMap.get(computerRecord.getStudent());
+                Double time=timeToHours(computerRecord.getStartTime(),computerRecord.getEndTime());
+                studentIdMap.replace(computerRecord.getStudent(),oldTime,oldTime+time);
+            }else {
+                //不存在，记录该学生上机时间
+                Double time=timeToHours(computerRecord.getStartTime(),computerRecord.getEndTime());
+                studentIdMap.put(computerRecord.getStudent(),time);
+            }
+        }
+
+
+        // 对学生进行排序
+        List<Map.Entry<Long, Double>> sortedList = new ArrayList<>(studentIdMap.entrySet());
+        sortedList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
+        // 获取指定学生的学习时间排名
+
+        int targetRank = -1;
+        for (int i = 0; i < sortedList.size(); i++) {
+            if (sortedList.get(i).getKey().equals(student.getId())) {
+                targetRank = i + 1;
+                break;
+            }
+        }
+
+
+        return Result.success(targetRank,"统计成功");
     }
 
     /**
