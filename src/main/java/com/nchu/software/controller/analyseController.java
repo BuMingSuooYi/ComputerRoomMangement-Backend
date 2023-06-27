@@ -171,7 +171,7 @@ public class analyseController {
      * @return Result<List<Double>>
      */
     @GetMapping("/period")
-    public Result<List<Double>> period(@RequestParam long account) {
+    public Result<List<Double>> period(@RequestParam Long account) {
         //通过账户获取学生班级
         LambdaQueryWrapper<Student> studentLambdaQueryWrapper=new LambdaQueryWrapper<>();
         studentLambdaQueryWrapper.eq(Student::getAccount,account);
@@ -202,7 +202,7 @@ public class analyseController {
      * @return
      */
     @GetMapping("/studentRanking")
-    public Result<Integer> studentRanking(@RequestParam long account) {
+    public Result<Integer> studentRanking(@RequestParam Long account) {
         //通过账户获取学生班级
         LambdaQueryWrapper<Student> studentLambdaQueryWrapper=new LambdaQueryWrapper<>();
         studentLambdaQueryWrapper.eq(Student::getAccount,account);
@@ -217,7 +217,7 @@ public class analyseController {
                 .collect(Collectors.toList());
         //获取这些学生的上机记录
         LambdaQueryWrapper<ComputerRecord> computerRecordLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        computerRecordLambdaQueryWrapper.eq(ComputerRecord::getStudent,studentIds);
+        computerRecordLambdaQueryWrapper.in(ComputerRecord::getStudent,studentIds);
         List<ComputerRecord> computerRecordList=computerRecordService.list(computerRecordLambdaQueryWrapper);
 
         Map<Long,Double> studentIdMap=new HashMap<>();
@@ -239,8 +239,8 @@ public class analyseController {
         // 对学生进行排序
         List<Map.Entry<Long, Double>> sortedList = new ArrayList<>(studentIdMap.entrySet());
         sortedList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-        // 获取指定学生的学习时间排名
 
+        // 获取指定学生的学习时间排名
         int targetRank = -1;
         for (int i = 0; i < sortedList.size(); i++) {
             if (sortedList.get(i).getKey().equals(student.getId())) {
@@ -249,8 +249,33 @@ public class analyseController {
             }
         }
 
-
         return Result.success(targetRank,"统计成功");
+    }
+
+    @GetMapping("/computerInformation")
+    public Result<List<Integer>> computerInformation() {
+        //正在上机人数
+        int num1=0;
+        LambdaQueryWrapper<Computer> lambdaQueryWrapper1=new LambdaQueryWrapper<>();
+        lambdaQueryWrapper1.eq(Computer::getState,1);
+        num1=computerService.count(lambdaQueryWrapper1);
+        //空闲电脑
+        int num2=0;
+        LambdaQueryWrapper<Computer> lambdaQueryWrapper2=new LambdaQueryWrapper<>();
+        lambdaQueryWrapper2.eq(Computer::getState,0);
+        num2=computerService.count(lambdaQueryWrapper2);
+        //正在维修电脑
+        int num3=0;
+        LambdaQueryWrapper<Computer> lambdaQueryWrapper3=new LambdaQueryWrapper<>();
+        lambdaQueryWrapper3.eq(Computer::getState,2);
+        num3=computerService.count(lambdaQueryWrapper3);
+
+        List<Integer> num=new ArrayList<>();
+        num.add(num1);
+        num.add(num2);
+        num.add(num3);
+
+        return Result.success(num,"正在上机人数、空闲电脑数、正在维修电脑数");
     }
 
     /**
