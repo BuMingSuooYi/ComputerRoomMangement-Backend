@@ -179,7 +179,7 @@ public class analyseController {
         String clazz=student.getClazz();
         //按学生查询上机记录
         LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper=new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(ComputerRecord::getStudent,student);
+        lambdaQueryWrapper.eq(ComputerRecord::getStudent,student.getId());
         List<ComputerRecord> computerRecordList=computerRecordService.list(lambdaQueryWrapper);
         Double time=0.0;
         //统计学时
