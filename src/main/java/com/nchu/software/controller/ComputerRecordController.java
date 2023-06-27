@@ -102,7 +102,19 @@ public class ComputerRecordController {
      */
     @PostMapping
     public Result<ComputerRecord> newComputerRecord(@RequestBody ComputerRecord computerRecord) {
+        //确定该学生是否正在上机
+        LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper=new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(ComputerRecord::getStudent,computerRecord.getStudent());
+        List<ComputerRecord> computerRecordList=computerRecordService.list(lambdaQueryWrapper);
+        boolean f=true;
+        for (ComputerRecord computerRecord1:computerRecordList) {
+            if (computerRecord1.getEndTime()==null){
+                f=false;
+                return Result.error("该学生未结束上次上机");
+            }
+        }
         computerRecord.setStartTime(LocalDateTime.now());
+
         if (computerRecordService.save(computerRecord)){
             //更改电脑状态为使用
             Computer computer=computerService.getById(computerRecord.getComputer());
@@ -110,8 +122,7 @@ public class ComputerRecordController {
             computerService.updateById(computer);
             return Result.success(computerRecord, "新增成功");
         }
-
-        return Result.success(computerRecord, "新增失败");
+        return Result.error("数据错误、该电脑正在被使用");
     }
 
 
