@@ -3,11 +3,11 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    username: crm
-#    password: hj123456
-#    url: jdbc:mysql://124.223.47.7:3306/crm?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
+    #    username: crm
+    #    password: hj123456
+    #    url: jdbc:mysql://124.223.47.7:3306/crm?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
     username: root
-    password: root
+    password: 123456
     url: jdbc:mysql://localhost:3306/crm?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
     type: com.alibaba.druid.pool.DruidDataSource
   servlet:
@@ -20,8 +20,8 @@ mybatis-plus:
     map-underscore-to-camel-case: true
     #MyBatis日志的实现类，输出到控制台
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    #全局ID生成策略，使用assign_id（自动分配ID）
+    # 全局ID生成策略，使用assign_id（自动分配ID）
   global-config:
     db-config:
       id-type: assign_id
-      update-strategy: ignored
+      update-strategy: ignored # 更新字段设置为空允许

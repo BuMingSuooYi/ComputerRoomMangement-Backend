@@ -179,7 +179,7 @@ public class analyseController {
         String clazz=student.getClazz();
         //按学生查询上机记录
         LambdaQueryWrapper<ComputerRecord> lambdaQueryWrapper=new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(ComputerRecord::getStudent,student.getId());
+        lambdaQueryWrapper.eq(ComputerRecord::getStudent,student.getId()).isNotNull(ComputerRecord::getEndTime);
         List<ComputerRecord> computerRecordList=computerRecordService.list(lambdaQueryWrapper);
         Double time=0.0;
         //统计学时
@@ -190,6 +190,11 @@ public class analyseController {
         LambdaQueryWrapper<ClazzPeriod> clazzPeriodLambdaQueryWrapper=new LambdaQueryWrapper<>();
         clazzPeriodLambdaQueryWrapper.eq(ClazzPeriod::getClazz,clazz);
         ClazzPeriod clazzPeriod=clazzPeriodService.getOne(clazzPeriodLambdaQueryWrapper);
+
+        if (clazzPeriod==null){
+            clazzPeriod=new ClazzPeriod();
+            clazzPeriod.setTime(0);
+        }
 
         List<Double> timeList=new ArrayList<>();
         timeList.add(time);
@@ -217,7 +222,7 @@ public class analyseController {
                 .collect(Collectors.toList());
         //获取这些学生的上机记录
         LambdaQueryWrapper<ComputerRecord> computerRecordLambdaQueryWrapper=new LambdaQueryWrapper<>();
-        computerRecordLambdaQueryWrapper.in(ComputerRecord::getStudent,studentIds);
+        computerRecordLambdaQueryWrapper.in(ComputerRecord::getStudent,studentIds).isNotNull(ComputerRecord::getEndTime);
         List<ComputerRecord> computerRecordList=computerRecordService.list(computerRecordLambdaQueryWrapper);
 
         Map<Long,Double> studentIdMap=new HashMap<>();
@@ -241,7 +246,7 @@ public class analyseController {
         sortedList.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
         // 获取指定学生的学习时间排名
-        int targetRank = -1;
+        int targetRank = 0;
         for (int i = 0; i < sortedList.size(); i++) {
             if (sortedList.get(i).getKey().equals(student.getId())) {
                 targetRank = i + 1;
