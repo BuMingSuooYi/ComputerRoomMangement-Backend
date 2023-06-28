@@ -94,8 +94,15 @@ public class MaintenanceRecordController {
      */
     @PostMapping
     public Result<MaintenanceRecord> newMaintenanceRecord(@RequestBody MaintenanceRecord maintenanceRecord) {
-        if (maintenanceRecordService.save(maintenanceRecord))
+        if (maintenanceRecord.getEndTime()==null){
+            Computer computer=computerService.getById(maintenanceRecord.getComputer());
+            computer.setState(2);
+            computerService.updateById(computer);
+        }
+        if (maintenanceRecordService.save(maintenanceRecord)){
             return Result.success(maintenanceRecord, "新增成功");
+
+        }
         return Result.success(maintenanceRecord, "新增失败");
     }
 
@@ -121,6 +128,11 @@ public class MaintenanceRecordController {
      */
     @PutMapping
     public Result<MaintenanceRecord> updateMaintenanceRecord(@RequestBody MaintenanceRecord maintenanceRecord) {
+        if (maintenanceRecord.getEndTime()!=null){
+            Computer computer=computerService.getById(maintenanceRecord.getComputer());
+            computer.setState(0);
+            computerService.updateById(computer);
+        }
         maintenanceRecordService.updateById(maintenanceRecord);
         return Result.success(maintenanceRecord, "更新成功");
     }
